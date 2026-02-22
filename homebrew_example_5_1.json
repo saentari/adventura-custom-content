@@ -1,0 +1,745 @@
+{
+  "source": {
+    "id": "homebrew_example_5_1",
+    "name": "Homebrew Example Pack (2014 Rules)",
+    "version": "srd_5_1",
+    "description": "Example homebrew content demonstrating every supported content type for 2014 D&D rules. All content is fictional and original. In SRD 5.1, species grant ability score bonuses and backgrounds grant a feature plus bonus languages."
+  },
+  "classes": [
+    {
+      "id": "hb_runescribe",
+      "name": "Runescribe",
+      "description": "Runescribes are scholars of a forgotten runic language that predates modern magic. By inscribing glyphs onto their skin, weapons, and surroundings, they channel arcane power through pattern and symbol rather than spoken incantation.",
+      "hitDie": 8,
+      "savingThrows": [
+        "INT",
+        "WIS"
+      ],
+      "primaryAbilities": "Intelligence",
+      "proficiencies": {
+        "skillOptions": [
+          "Arcana",
+          "History",
+          "Insight",
+          "Investigation",
+          "Nature",
+          "Perception",
+          "Religion"
+        ],
+        "skillChoices": 2,
+        "weaponProficiencies": [
+          "Simple weapons"
+        ],
+        "toolOptions": [
+          "Calligrapher's Supplies",
+          "Painter's Supplies",
+          "Jeweler's Tools",
+          "Mason's Tools"
+        ],
+        "toolChoices": 1,
+        "armorTraining": [
+          "Light armor"
+        ]
+      },
+      "spellcasting": {
+        "ability": "Intelligence",
+        "cantripsKnown": [
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "spellSlots": {
+          "1": [
+            2,
+            3,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "2": [
+            0,
+            0,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "3": [
+            0,
+            0,
+            0,
+            0,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "4": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "startingCurrency": {
+        "gp": 75
+      },
+      "abilityPriority": [
+        "Intelligence",
+        "Constitution",
+        "Dexterity",
+        "Wisdom",
+        "Charisma",
+        "Strength"
+      ],
+      "features": {
+        "1st": [
+          {
+            "name": "Runic Lexicon",
+            "description": "You have mastered the fundamentals of the ancient runic language. You can spend 10 minutes inscribing a minor glyph onto an object or surface. The glyph sheds dim light in a 5-foot radius, can produce a brief sound when touched, or can display a short message (25 words or fewer) visible only to creatures you designate. You can maintain a number of active glyphs equal to your Intelligence modifier (minimum 1). Creating a new glyph beyond this limit causes the oldest one to fade."
+          },
+          {
+            "name": "Spellcasting",
+            "description": "You channel magic through runic inscriptions rather than verbal incantations. You know two cantrips of your choice. You can prepare a number of spells equal to your Intelligence modifier + your runescribe level (minimum of one). Intelligence is your spellcasting ability. You use calligrapher's supplies or painter's supplies as your spellcasting focus."
+          }
+        ],
+        "2nd": [
+          {
+            "name": "Glyph of Warding",
+            "description": "You learn to inscribe protective glyphs. As an action, you can inscribe a glyph on a surface within 5 feet of you. The glyph lasts for 8 hours or until triggered. When a creature you designate enters within 5 feet of the glyph, it flares with energy, and the triggering creature must make a Dexterity saving throw against your spell save DC or take 2d6 radiant damage. You can use this feature a number of times equal to your Intelligence modifier (minimum once), regaining all uses after a long rest."
+          }
+        ],
+        "3rd": [
+          {
+            "name": "Runic Tradition",
+            "description": "You dedicate yourself to a particular tradition of runic study. Choose one of the following traditions. Your choice grants you additional features at 6th, 10th, and 14th level.",
+            "choices": [
+              "Tradition of the Warden",
+              "Tradition of the Sage"
+            ],
+            "choiceDescription": "Choose your Runic Tradition:",
+            "choiceDescriptions": {
+              "Tradition of the Warden": "Wardens inscribe runes of protection onto armor and shields, becoming resilient defenders who bolster their allies with ancient symbols of fortitude.",
+              "Tradition of the Sage": "Sages study the deepest layers of runic meaning, unlocking the ability to weave multiple glyphs together into complex patterns that amplify their spellcasting."
+            }
+          }
+        ]
+      },
+      "tags": [
+        "spellcaster",
+        "intelligence",
+        "homebrew",
+        "runes"
+      ]
+    },
+    {
+      "id": "hb_ironclad",
+      "name": "Ironclad (Fighter)",
+      "description": "Ironclad fighters have trained their bodies to shrug off blows that would fell lesser warriors, turning their own resilience into a weapon.",
+      "baseClass": "fighter",
+      "features": {
+        "3rd": [
+          {
+            "name": "Hardened Constitution",
+            "description": "Your relentless training has toughened your body beyond normal limits. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by an amount equal to your Constitution modifier (minimum of 1). You can use this feature a number of times equal to your proficiency bonus, regaining all uses after a short or long rest."
+          },
+          {
+            "name": "Unyielding Stance",
+            "description": "When you are standing on solid ground and not moving, you have advantage on Strength checks and saving throws to resist being moved against your will or knocked prone."
+          }
+        ],
+        "7th": [
+          {
+            "name": "Retaliating Strike",
+            "description": "When a creature within 5 feet of you hits you with a melee attack, you can use your reaction to make a melee weapon attack against that creature. You can use this feature a number of times equal to your Constitution modifier (minimum once), regaining all uses after a long rest."
+          }
+        ],
+        "10th": [
+          {
+            "name": "Iron Will",
+            "description": "Your mental fortitude matches your physical endurance. You gain proficiency in Wisdom saving throws. If you already have this proficiency, you gain proficiency in Charisma saving throws instead."
+          }
+        ],
+        "15th": [
+          {
+            "name": "Indomitable Body",
+            "description": "When you are reduced to 0 hit points but not killed outright, you can choose to drop to 1 hit point instead. Once you use this feature, you can't use it again until you finish a long rest. Additionally, your Hardened Constitution damage reduction now applies to all damage types, not just nonmagical weapon damage."
+          }
+        ],
+        "18th": [
+          {
+            "name": "Living Fortress",
+            "description": "You become an immovable bulwark on the battlefield. While you are conscious, you and each ally within 10 feet of you gain a bonus to AC equal to half your Constitution modifier (rounded down, minimum +1). Additionally, you can't be frightened or charmed."
+          }
+        ]
+      },
+      "tags": [
+        "martial",
+        "subclass",
+        "fighter",
+        "tank",
+        "homebrew"
+      ]
+    }
+  ],
+  "species": [
+    {
+      "id": "hb_glimmerfolk",
+      "name": "Glimmerfolk",
+      "description": "Glimmerfolk are a reclusive people born in underground crystalline caverns where raw magic seeps through mineral veins. Their skin has a faint iridescent sheen that shifts color with their emotions, and they possess an innate sensitivity to magical auras. Most Glimmerfolk communities exist deep beneath mountain ranges, though a few have established surface settlements near exposed crystal formations.",
+      "abilityScoreBonuses": {
+        "INT": 2,
+        "DEX": 1
+      },
+      "features": [
+        {
+          "name": "Crystal Sight",
+          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray. Additionally, you can sense the presence of magic within 10 feet of you as a faint shimmer, though you can't determine its school or exact nature without further investigation."
+        },
+        {
+          "name": "Refractive Skin",
+          "description": "Your crystalline skin refracts light in unpredictable ways. As a reaction when you are targeted by a spell that requires an attack roll, you can impose disadvantage on the attack. Once you use this trait, you can't use it again until you finish a short or long rest."
+        },
+        {
+          "name": "Resonance",
+          "description": "You have resistance to thunder damage. When you take thunder damage, each creature of your choice within 5 feet of you takes thunder damage equal to your proficiency bonus."
+        }
+      ],
+      "characteristics": {
+        "height": "4'8\" - 5'6\"",
+        "age": "30-400",
+        "weight": "90-140",
+        "eyes": "crystal, opalescent, silver",
+        "skin": "iridescent, translucent, pale blue"
+      },
+      "languages": [
+        "Common",
+        "Undercommon"
+      ],
+      "speed": 30,
+      "size": "Medium",
+      "tags": [
+        "underground",
+        "crystal",
+        "homebrew"
+      ]
+    }
+  ],
+  "lineages": [
+    {
+      "id": "hb_deepvein_glimmerfolk",
+      "name": "Deepvein Glimmerfolk",
+      "baseSpecies": "hb_glimmerfolk",
+      "description": "Deepvein Glimmerfolk have dwelled so far beneath the surface that their crystalline features have grown more pronounced, granting them superior darkvision and the ability to navigate by echolocation.",
+      "abilityScoreBonuses": {
+        "CON": 1
+      },
+      "features": [
+        {
+          "name": "Superior Darkvision",
+          "description": "Your darkvision extends to 120 feet. You can see in magical darkness within 30 feet of you as if it were dim light."
+        },
+        {
+          "name": "Tremorsense",
+          "description": "You can detect and pinpoint the origin of vibrations within 15 feet of you, provided you and the source of the vibrations are in contact with the same ground or substance."
+        }
+      ],
+      "tags": [
+        "underground",
+        "deep",
+        "homebrew"
+      ]
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "hb_ruin_delver",
+      "name": "Ruin Delver",
+      "description": "You spent years exploring ancient ruins, forgotten tombs, and collapsed civilizations. You've developed a knack for reading old architecture, disarming archaic traps, and identifying artifacts long before their true value is apparent.",
+      "skillProficiencies": [
+        "Investigation",
+        "History"
+      ],
+      "toolProficiencies": [
+        "Cartographer's Tools"
+      ],
+      "languageChoiceCount": 1,
+      "equipment": [
+        "A set of cartographer's tools",
+        "A journal filled with sketches of ruins you've explored",
+        "A 10-foot pole",
+        "A set of common clothes",
+        "A pouch containing 10 gp"
+      ],
+      "feature": "Ruin Reader",
+      "featureDescription": "Your experience with ancient sites gives you an intuitive understanding of old construction. When you enter a ruin, tomb, or similar structure, you can spend 10 minutes studying it to determine its approximate age, original purpose, and most likely location of traps or hidden passages."
+    }
+  ],
+  "feats": [
+    {
+      "id": "hb_glyph_touched",
+      "name": "Glyph Touched",
+      "description": "Marked by an ancient runic inscription, you can channel protective magic",
+      "prerequisites": "",
+      "effects": [
+        {
+          "type": "abilityScoreIncrease",
+          "data": {
+            "ability": "INT",
+            "bonus": 1,
+            "max": 20
+          },
+          "description": "+1 Intelligence (max 20)"
+        },
+        {
+          "type": "custom",
+          "data": {},
+          "description": "You learn the Resistance cantrip. Intelligence is your spellcasting ability for it."
+        },
+        {
+          "type": "custom",
+          "data": {},
+          "description": "Once per long rest, when you or a creature within 30 feet of you takes damage, you can use your reaction to grant them temporary hit points equal to your Intelligence modifier + your proficiency bonus."
+        }
+      ],
+      "tags": [
+        "magic",
+        "protection",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_crystal_marksman",
+      "name": "Crystal Marksman",
+      "description": "Your training with crystalline weapons grants you exceptional accuracy with ranged attacks",
+      "prerequisites": "",
+      "effects": [
+        {
+          "type": "combatBonus",
+          "data": {
+            "bonus": 1,
+            "type": "ranged_attack"
+          },
+          "description": "+1 to ranged weapon attack rolls"
+        },
+        {
+          "type": "abilityScoreIncrease",
+          "data": {
+            "ability": "DEX",
+            "bonus": 1,
+            "max": 20
+          },
+          "description": "+1 Dexterity (max 20)"
+        }
+      ],
+      "tags": [
+        "combat",
+        "ranged",
+        "homebrew"
+      ]
+    }
+  ],
+  "spells": [
+    {
+      "id": "hb-crystalline-barrier",
+      "name": "Crystalline Barrier",
+      "level": 2,
+      "school": "Abjuration",
+      "casting_time": "1 reaction, which you take when you or a creature within 30 feet is targeted by an attack",
+      "range": "30 feet",
+      "components": [
+        "V",
+        "S"
+      ],
+      "duration": "1 round",
+      "concentration": false,
+      "classes": [
+        "wizard",
+        "sorcerer"
+      ],
+      "description": "You conjure a shimmering wall of translucent crystal that interposes itself between the target and the attacker. The target gains +5 to AC against the triggering attack and any subsequent attacks until the start of your next turn. If an attack misses the protected creature by 5 or more, the barrier shatters and deals 1d8 radiant damage to the attacker. At Higher Levels: When you cast this spell using a spell slot of 3rd level or higher, the radiant damage increases by 1d8 for each slot level above 2nd.",
+      "tags": [
+        "protection",
+        "reaction",
+        "homebrew"
+      ]
+    }
+  ],
+  "equipment": [
+    {
+      "id": "hb_crystal_tipped_spear",
+      "name": "Crystal-Tipped Spear",
+      "index": "hb_crystal_tipped_spear",
+      "equipment_category": {
+        "index": "weapon",
+        "name": "Weapon"
+      },
+      "weapon_category": "Martial",
+      "weapon_range": "Melee",
+      "cost": {
+        "quantity": 25,
+        "unit": "gp"
+      },
+      "damage": {
+        "damage_dice": "1d8",
+        "damage_type": {
+          "index": "piercing",
+          "name": "Piercing"
+        }
+      },
+      "weight": 4,
+      "properties": [
+        {
+          "index": "thrown",
+          "name": "Thrown"
+        },
+        {
+          "index": "versatile",
+          "name": "Versatile"
+        }
+      ],
+      "throw_range": {
+        "normal": 20,
+        "long": 60
+      },
+      "two_hand_damage": {
+        "damage_dice": "1d10",
+        "damage_type": {
+          "index": "piercing",
+          "name": "Piercing"
+        }
+      },
+      "desc": "A martial spear with a head carved from resonant crystal found deep in Glimmerfolk caverns. The crystal tip holds an edge as well as steel and emits a faint chime on impact.",
+      "tags": [
+        "weapon",
+        "crystal",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_glimmerweave_chain_shirt",
+      "name": "Glimmerweave Chain Shirt",
+      "index": "hb_glimmerweave_chain_shirt",
+      "equipment_category": {
+        "index": "armor",
+        "name": "Armor"
+      },
+      "armor_category": "Medium",
+      "armor_class": {
+        "base": 14,
+        "dex_bonus": true,
+        "max_bonus": 2
+      },
+      "str_minimum": 0,
+      "stealth_disadvantage": false,
+      "cost": {
+        "quantity": 75,
+        "unit": "gp"
+      },
+      "weight": 15,
+      "desc": "A chain shirt woven with threads of crystallized light harvested from Glimmerfolk cavern ceilings. Lighter than standard chain, it offers the same protection as a breastplate without imposing stealth penalties. The links shimmer faintly in dim light.",
+      "tags": [
+        "armor",
+        "medium",
+        "crystal",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_rune_etched_lantern",
+      "name": "Rune-Etched Lantern",
+      "index": "hb_rune_etched_lantern",
+      "equipment_category": {
+        "index": "adventuring_gear",
+        "name": "Adventuring Gear"
+      },
+      "cost": {
+        "quantity": 15,
+        "unit": "gp"
+      },
+      "weight": 2,
+      "desc": "A hooded lantern inscribed with Runescribe glyphs along its brass frame. When filled with oil, the runes amplify the flame, shedding bright light in a 40-foot radius and dim light for an additional 20 feet (compared to the standard 30/30). The lantern burns oil at the normal rate of 6 hours per pint.",
+      "tags": [
+        "gear",
+        "light",
+        "runes",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_deep_cavern_lizard",
+      "name": "Deep Cavern Lizard",
+      "index": "hb_deep_cavern_lizard",
+      "equipment_category": {
+        "index": "mounts_and_vehicles",
+        "name": "Mounts and Vehicles"
+      },
+      "cost": {
+        "quantity": 200,
+        "unit": "gp"
+      },
+      "weight": 0,
+      "desc": "A large, docile reptile bred by Deepvein Glimmerfolk as pack animals and mounts in underground tunnels. It has a climbing speed of 30 feet, darkvision out to 60 feet, and can carry up to 480 pounds. Deep cavern lizards are sure-footed on narrow ledges and vertical surfaces, making them invaluable for navigating the Underdark.",
+      "tags": [
+        "mount",
+        "underground",
+        "homebrew"
+      ]
+    }
+  ],
+  "magic_items": [
+    {
+      "id": "hb_frostbrand_glaive",
+      "name": "Frostbrand Glaive",
+      "index": "hb_frostbrand_glaive",
+      "equipment_category": {
+        "index": "weapon",
+        "name": "Weapon"
+      },
+      "rarity": {
+        "name": "Rare"
+      },
+      "variant": false,
+      "variants": [],
+      "desc": [
+        "Weapon (glaive), rare (requires attunement)",
+        "This glaive's blade is forged from crystallized glacial ice held rigid by Runescribe enchantments. When you hit with an attack using this weapon, the target takes an extra 1d6 cold damage. In addition, while you hold the glaive, you have resistance to fire damage.",
+        "In freezing temperatures, the blade sheds bright light in a 10-foot radius and dim light for an additional 10 feet."
+      ],
+      "tags": [
+        "magic",
+        "weapon",
+        "cold",
+        "rare",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_cloak_of_crystal_resonance",
+      "name": "Cloak of Crystal Resonance",
+      "index": "hb_cloak_of_crystal_resonance",
+      "equipment_category": {
+        "index": "wondrous_item",
+        "name": "Wondrous Item"
+      },
+      "rarity": {
+        "name": "Uncommon"
+      },
+      "variant": false,
+      "variants": [],
+      "desc": [
+        "Wondrous item, uncommon (requires attunement)",
+        "This cloak is woven with threads of resonant crystal and hums faintly when magic is nearby. While wearing this cloak, you have advantage on saving throws against spells and other magical effects that deal thunder damage.",
+        "Additionally, once per long rest, when you are hit by a melee attack, you can use your reaction to emit a burst of crystalline resonance. The attacker must succeed on a DC 13 Constitution saving throw or be deafened until the end of its next turn."
+      ],
+      "tags": [
+        "magic",
+        "wondrous",
+        "crystal",
+        "uncommon",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_potion_of_runic_sight",
+      "name": "Potion of Runic Sight",
+      "index": "hb_potion_of_runic_sight",
+      "equipment_category": {
+        "index": "potion",
+        "name": "Potion"
+      },
+      "rarity": {
+        "name": "Uncommon"
+      },
+      "variant": false,
+      "variants": [],
+      "desc": [
+        "Potion, uncommon",
+        "This shimmering violet liquid contains tiny floating crystal motes that catch the light. When you drink this potion, you gain the ability to see invisible creatures and objects, as well as into the Ethereal Plane, out to a range of 60 feet for 1 hour.",
+        "Additionally, for the duration, any magical writing (such as glyphs of warding or arcane locks) within your line of sight glows with a faint blue outline, granting you advantage on Intelligence (Arcana) checks to identify or decipher them."
+      ],
+      "tags": [
+        "magic",
+        "potion",
+        "divination",
+        "uncommon",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_stoneheart_shield",
+      "name": "Stoneheart Shield",
+      "index": "hb_stoneheart_shield",
+      "equipment_category": {
+        "index": "armor",
+        "name": "Armor"
+      },
+      "rarity": {
+        "name": "Rare"
+      },
+      "variant": false,
+      "variants": [],
+      "desc": [
+        "Armor (shield), rare (requires attunement)",
+        "This heavy shield is carved from a single piece of enchanted granite veined with glowing runic patterns. While wielding this shield, you gain a +1 bonus to AC in addition to the shield's normal bonus.",
+        "Stoneheart Resilience. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by 1d6 + your Constitution modifier. You can use this property three times, regaining all uses after a long rest.",
+        "Immovable Stance. While wielding this shield, you have advantage on saving throws and ability checks against being knocked prone or moved against your will."
+      ],
+      "tags": [
+        "magic",
+        "armor",
+        "shield",
+        "rare",
+        "homebrew"
+      ]
+    }
+  ],
+  "names": [
+    {
+      "species": "hb_glimmerfolk",
+      "male": [
+        "Crystan",
+        "Faceth",
+        "Gleamor",
+        "Luminar",
+        "Prismak",
+        "Refrath",
+        "Shardis",
+        "Spectar",
+        "Vitreon",
+        "Brillan"
+      ],
+      "female": [
+        "Aurela",
+        "Clarisa",
+        "Gemella",
+        "Iridea",
+        "Lustera",
+        "Opaline",
+        "Prismara",
+        "Radiana",
+        "Shimera",
+        "Sparkle"
+      ],
+      "neutral": [
+        "Glint",
+        "Lumen",
+        "Prism",
+        "Quartz",
+        "Shard",
+        "Shine",
+        "Spark",
+        "Crystal",
+        "Gleam",
+        "Flicker"
+      ],
+      "familyNames": [
+        "Brightcore",
+        "Crystalvein",
+        "Deepgleam",
+        "Gemheart",
+        "Lightweave",
+        "Prismshard",
+        "Quartzbloom",
+        "Shimmerstone"
+      ]
+    }
+  ]
+}
