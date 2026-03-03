@@ -6,7 +6,7 @@ Adventura now supports importing custom D&D 5e content! This feature allows you 
 
 - ✅ Import classes and subclasses from official D&D books (Xanathar's Guide, Tasha's Cauldron, etc.)
 - ✅ Add homebrew species, classes, and backgrounds
-- ✅ Import custom name data for species-specific name generation
+- ✅ Import custom name data for species, adventure, and party name generation
 - ✅ Enable/disable content packs as needed
 - ✅ Track which content source each character uses
 - ✅ Keep all your custom content organized in one place
@@ -202,16 +202,28 @@ This information is saved in the character's data and synced to the cloud.
 
 ---
 
-## Custom Species Names
+## Custom Names
 
-You can add custom name data for any species (built-in or custom) by including a `"names"` array in your content pack. These names are used by the name generator during character creation.
+The `names` array in your content pack supports two types of name data: **species names** for character/NPC creation, and **random name word lists** for adventure and party names. Both types coexist in the same array.
 
-### How It Works
+### Species Names
+
+Add custom name data for any species (built-in or custom). Entries are identified by the `species` field.
 
 - Imported names are **merged** with the built-in name pool (additive, never replaces)
-- More imported names = more variety in character name suggestions
 - Names support gender categories: `male`, `female`, `neutral`, and optional `familyNames`
 - If a custom species has no built-in names, imported names will be the only source
+
+### Random Name Word Lists
+
+Customize the word lists used to generate adventure and party names. Entries are identified by the `category` field.
+
+- **Merge mode (default):** Custom adjectives and nouns are added to the built-in pool for more variety
+- **Replace mode:** Built-in word lists are discarded entirely; only your custom words are used
+- Names are generated using the template: **"The [Adjective] [Noun]"**
+- Supported categories: `adventure` and `party`
+
+> **Reverting replace mode:** To restore built-in word lists, disable the content source in **Settings → Custom content** using the toggle switch. You can also delete the source and re-import with `"mode": "merge"` (or omit `mode` entirely).
 
 ### Example
 
@@ -219,7 +231,7 @@ You can add custom name data for any species (built-in or custom) by including a
 {
   "source": {
     "id": "my_names",
-    "name": "Extra Names Pack",
+    "name": "Custom Names Pack",
     "version": "srd_5_2"
   },
   "names": [
@@ -229,10 +241,23 @@ You can add custom name data for any species (built-in or custom) by including a
       "female": ["Adria", "Bethrynna", "Caelynn"],
       "neutral": ["Arannis", "Cyren", "Daeron"],
       "familyNames": ["Amakiir", "Galanodel", "Liadon"]
+    },
+    {
+      "category": "adventure",
+      "mode": "merge",
+      "adjectives": ["Crystalline", "Shimmering", "Fractured", "Resonant"],
+      "nouns": ["Geode", "Cavern", "Lattice", "Prism"]
+    },
+    {
+      "category": "party",
+      "adjectives": ["Crystal", "Deepvein", "Glimmering", "Opal"],
+      "nouns": ["Shards", "Delvers", "Prisms", "Resonators"]
     }
   ]
 }
 ```
+
+When `mode` is omitted, it defaults to `"merge"`. Use `"mode": "replace"` to completely override the built-in word lists.
 
 See [custom_content_schema.md](./custom_content_schema.md) for the full field reference.
 

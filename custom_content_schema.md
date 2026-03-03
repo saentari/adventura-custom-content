@@ -11,6 +11,7 @@ This document describes the JSON schema format for importing custom D&D 5e conte
   - [Classes](#classes)
   - [Species](#species)
   - [Backgrounds](#backgrounds)
+  - [Names](#names)
 - [Validation Rules](#validation-rules)
 - [Examples](#examples)
 
@@ -28,7 +29,7 @@ Custom content packs are JSON files that contain additional D&D content from off
 - Equipment
 - Magic Items
 - Spells
-- Names (species name generation data)
+- Names (species names, adventure/party name word lists)
 
 ---
 
@@ -59,7 +60,7 @@ Custom content packs are JSON files that contain additional D&D content from off
 - `equipment` (array) - List of equipment item definitions
 - `magic_items` (array) - List of magic item definitions
 - `spells` (array) - List of spell definitions
-- `names` (array) - List of species name generation data
+- `names` (array) - List of name generation data (species names, adventure/party word lists)
 
 **Note:** At least one content type must be present.
 
@@ -403,7 +404,11 @@ Backgrounds represent a character's origin story. Use the same field names and s
 
 ### Names
 
-Names provide species-specific name generation data for character creation. When a content pack with names is active, imported names are merged with the built-in name pool for more variety.
+The `names` array supports two entry types, distinguished by their fields:
+
+#### Species Names
+
+Provide name generation data for character creation and NPCs. Entry type is identified by the `species` field.
 
 ```json
 {
@@ -419,8 +424,6 @@ Names provide species-specific name generation data for character creation. When
 }
 ```
 
-#### Fields
-
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `species` | string | ✅ | Species identifier (e.g. `human`, `elf`, `dwarf`, or a custom species ID) |
@@ -429,19 +432,71 @@ Names provide species-specific name generation data for character creation. When
 | `neutral` | array | ❌ | Gender-neutral first names |
 | `familyNames` | array | ❌ | Family/clan names appended to first names |
 
-#### Generation Logic
-
+**Generation logic:**
 1. Pick a random first name from the gender-appropriate list
 2. If that list is empty, fall back to `neutral`, then any available list
 3. If `familyNames` is non-empty, append a random family name
 4. Imported names are **additively merged** with built-in names (more variety, never replaces)
 
-#### Notes
-
+**Notes:**
 - Species IDs must match the app's species identifiers (e.g. `human`, `elf`, `dwarf`, `halfling`, `gnome`, `halfElf`, `halfOrc`, `tiefling`, `dragonborn`, `goliath`, `orc`)
 - For custom species, use the same ID used in the species definition (e.g. `hb_glimmerfolk`)
 - All name arrays contain plain strings (complete names, not prefixes/suffixes)
-- A pack with *only* `names` (no species, classes, etc.) is valid
+
+#### Random Name Word Lists
+
+Provide word lists for generating adventure names, party names, and other randomized labels. Entry type is identified by the `category` field.
+
+```json
+{
+  "names": [
+    {
+      "category": "adventure",
+      "mode": "merge",
+      "adjectives": ["Runic", "Crystalline", "Shattered"],
+      "nouns": ["Cavern", "Spire", "Depths"]
+    },
+    {
+      "category": "party",
+      "mode": "replace",
+      "adjectives": ["Crystal", "Deepvein", "Resonant"],
+      "nouns": ["Delvers", "Watchers", "Shards"]
+    }
+  ]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `category` | string | ✅ | Name category: `adventure` or `party` |
+| `mode` | string | ❌ | `merge` (default) adds to built-in lists; `replace` overrides built-in lists entirely |
+| `adjectives` | array | ✅ | Word list for the adjective slot (at least one entry) |
+| `nouns` | array | ✅ | Word list for the noun slot (at least one entry) |
+
+**Generation logic:**
+1. Template: **"The [Adjective] [Noun]"** (e.g., "The Crystalline Spire", "The Deepvein Delvers")
+2. **Merge mode (default):** Custom adjectives/nouns are appended to the built-in pool for more variety
+3. **Replace mode:** Built-in lists are discarded; only custom words are used
+4. If multiple packs contribute to the same category, all custom words are combined
+5. If a replace-mode pack produces empty lists, built-in lists are used as a fallback
+6. `mode` defaults to `"merge"` when omitted
+7. Future categories (tavern, shop, npc, place) will be added as the app expands
+
+#### Combining Both Types
+
+Both species names and random name word lists can coexist in the same `names` array:
+
+```json
+{
+  "names": [
+    { "species": "hb_glimmerfolk", "male": ["Crystan"], "female": ["Aurela"] },
+    { "category": "adventure", "adjectives": ["Crystalline"], "nouns": ["Geode"] },
+    { "category": "party", "adjectives": ["Crystal"], "nouns": ["Shards"] }
+  ]
+}
+```
+
+A pack with *only* `names` (no species, classes, etc.) is valid.
 
 ---
 

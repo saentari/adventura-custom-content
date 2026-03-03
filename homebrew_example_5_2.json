@@ -743,6 +743,18 @@
         "Quartzbloom",
         "Shimmerstone"
       ]
+    },
+    {
+      "category": "adventure",
+      "mode": "merge",
+      "adjectives": ["Crystalline", "Shimmering", "Fractured", "Resonant", "Prismatic", "Veined"],
+      "nouns": ["Geode", "Cavern", "Lattice", "Refinery", "Prism", "Outcrop"]
+    },
+    {
+      "category": "party",
+      "mode": "merge",
+      "adjectives": ["Crystal", "Deepvein", "Glimmering", "Opal", "Quartz", "Faceted"],
+      "nouns": ["Shards", "Delvers", "Prisms", "Resonators", "Facets", "Geodes"]
     }
   ]
 }
