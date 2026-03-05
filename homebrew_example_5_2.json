@@ -383,7 +383,7 @@
       "prerequisites": "",
       "effects": [
         {
-          "type": "abilityScoreIncrease",
+          "type": "abilityScoreBonus",
           "data": {
             "ability": "INT",
             "bonus": 1,
@@ -392,12 +392,12 @@
           "description": "+1 Intelligence (max 20)"
         },
         {
-          "type": "custom",
+          "type": "passiveAbility",
           "data": {},
           "description": "You learn the Resistance cantrip. Intelligence is your spellcasting ability for it."
         },
         {
-          "type": "custom",
+          "type": "passiveAbility",
           "data": {},
           "description": "Once per long rest, when you or a creature within 30 feet of you takes damage, you can use your reaction to grant them temporary hit points equal to your Intelligence modifier + your proficiency bonus."
         }
@@ -415,7 +415,7 @@
       "prerequisites": "",
       "effects": [
         {
-          "type": "combatBonus",
+          "type": "damageBonus",
           "data": {
             "bonus": 1,
             "type": "ranged_attack"
@@ -423,7 +423,7 @@
           "description": "+1 to ranged weapon attack rolls"
         },
         {
-          "type": "abilityScoreIncrease",
+          "type": "abilityScoreBonus",
           "data": {
             "ability": "DEX",
             "bonus": 1,
