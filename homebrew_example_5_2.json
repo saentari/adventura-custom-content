@@ -277,6 +277,18 @@
         "tank",
         "homebrew"
       ]
+    },
+    {
+      "id": "hb_pact_of_the_crystal",
+      "name": "Pact of the Crystal",
+      "baseClass": "warlock",
+      "featureExtension": "Pact Boon",
+      "description": "Your patron gifts you a shard of crystallized planar energy that hovers near your shoulder. The crystal stores one warlock spell slot that you can expend separately from your normal Pact Magic slots. The stored slot is the same level as your other Pact Magic slots. Once expended, the crystal regains its stored slot when you finish a long rest (rather than a short rest). If the crystal is destroyed, you can perform a 1-hour ritual during a long rest to regrow it from a fragment.",
+      "tags": [
+        "warlock",
+        "pact_boon",
+        "homebrew"
+      ]
     }
   ],
   "species": [
@@ -747,14 +759,156 @@
     {
       "category": "adventure",
       "mode": "merge",
-      "adjectives": ["Crystalline", "Shimmering", "Fractured", "Resonant", "Prismatic", "Veined"],
-      "nouns": ["Geode", "Cavern", "Lattice", "Refinery", "Prism", "Outcrop"]
+      "adjectives": [
+        "Crystalline",
+        "Shimmering",
+        "Fractured",
+        "Resonant",
+        "Prismatic",
+        "Veined"
+      ],
+      "nouns": [
+        "Geode",
+        "Cavern",
+        "Lattice",
+        "Refinery",
+        "Prism",
+        "Outcrop"
+      ]
     },
     {
       "category": "party",
       "mode": "merge",
-      "adjectives": ["Crystal", "Deepvein", "Glimmering", "Opal", "Quartz", "Faceted"],
-      "nouns": ["Shards", "Delvers", "Prisms", "Resonators", "Facets", "Geodes"]
+      "adjectives": [
+        "Crystal",
+        "Deepvein",
+        "Glimmering",
+        "Opal",
+        "Quartz",
+        "Faceted"
+      ],
+      "nouns": [
+        "Shards",
+        "Delvers",
+        "Prisms",
+        "Resonators",
+        "Facets",
+        "Geodes"
+      ]
+    }
+  ],
+  "monsters": [
+    {
+      "id": "hb_gloomspore",
+      "name": "Gloomspore",
+      "index": "hb_gloomspore",
+      "size": "Medium",
+      "type": "plant",
+      "alignment": "neutral evil",
+      "armor_class": [
+        {
+          "type": "natural",
+          "value": 14
+        }
+      ],
+      "hit_points": 78,
+      "hit_dice": "12d8",
+      "hit_points_roll": "12d8+24",
+      "speed": {
+        "walk": "20 ft.",
+        "climb": "20 ft."
+      },
+      "strength": 16,
+      "dexterity": 10,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 12,
+      "charisma": 5,
+      "proficiencies": [
+        {
+          "value": 4,
+          "proficiency": {
+            "index": "saving_throw_con",
+            "name": "Saving Throw: CON"
+          }
+        },
+        {
+          "value": 4,
+          "proficiency": {
+            "index": "skill_stealth",
+            "name": "Skill: Stealth"
+          }
+        }
+      ],
+      "damage_vulnerabilities": [
+        "fire"
+      ],
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        {
+          "index": "poisoned",
+          "name": "Poisoned"
+        },
+        {
+          "index": "blinded",
+          "name": "Blinded"
+        }
+      ],
+      "senses": {
+        "blindsight": "60 ft.",
+        "passive_perception": 11
+      },
+      "languages": "",
+      "challenge_rating": 4,
+      "proficiency_bonus": 2,
+      "xp": 1100,
+      "special_abilities": [
+        {
+          "name": "False Appearance",
+          "desc": "While the gloomspore remains motionless, it is indistinguishable from a patch of ordinary fungi."
+        },
+        {
+          "name": "Toxic Aura",
+          "desc": "Any creature that starts its turn within 10 feet of the gloomspore must succeed on a DC 12 Constitution saving throw or be poisoned until the start of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "desc": "The gloomspore makes two tentacle attacks."
+        },
+        {
+          "name": "Tentacle",
+          "desc": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 10 (2d6 + 3) bludgeoning damage plus 7 (2d6) poison damage. The target must succeed on a DC 12 Constitution saving throw or be poisoned for 1 minute."
+        },
+        {
+          "name": "Spore Burst (Recharge 5-6)",
+          "desc": "The gloomspore releases a cloud of spores in a 20-foot radius. Each creature in the area must make a DC 12 Constitution saving throw, taking 21 (6d6) poison damage on a failed save, or half as much on a successful one. On a failed save, a creature is also blinded until the end of its next turn."
+        }
+      ],
+      "legendary_actions": []
+    }
+  ],
+  "invocations": [
+    {
+      "id": "hb_eldritch_shroud",
+      "name": "Eldritch Shroud",
+      "description": "You can wrap yourself in a cloak of crackling eldritch energy. As a bonus action, you gain temporary hit points equal to your Charisma modifier (minimum 1) that last for 1 minute. While you have these temporary hit points, your melee weapon attacks deal an extra 1d4 force damage. Once you use this invocation, you can't use it again until you finish a short or long rest.",
+      "level_requirement": 5,
+      "effects": [
+        {
+          "type": "passiveAbility",
+          "data": {
+            "description": "As a bonus action, gain temporary hit points equal to your Charisma modifier (minimum 1) for 1 minute. While active, your melee weapon attacks deal an extra 1d4 force damage. Usable once per short or long rest."
+          }
+        }
+      ]
     }
   ]
 }

@@ -277,6 +277,18 @@
         "tank",
         "homebrew"
       ]
+    },
+    {
+      "id": "hb_pact_of_the_crystal",
+      "name": "Pact of the Crystal",
+      "baseClass": "warlock",
+      "featureExtension": "Pact Boon",
+      "description": "Your patron gifts you a shard of crystallized planar energy that hovers near your shoulder. The crystal stores one warlock spell slot that you can expend separately from your normal Pact Magic slots. The stored slot is the same level as your other Pact Magic slots. Once expended, the crystal regains its stored slot when you finish a long rest (rather than a short rest). If the crystal is destroyed, you can perform a 1-hour ritual during a long rest to regrow it from a fragment.",
+      "tags": [
+        "warlock",
+        "pact_boon",
+        "homebrew"
+      ]
     }
   ],
   "species": [
@@ -744,14 +756,165 @@
     {
       "category": "adventure",
       "mode": "merge",
-      "adjectives": ["Crystalline", "Shimmering", "Fractured", "Resonant", "Prismatic", "Veined"],
-      "nouns": ["Geode", "Cavern", "Lattice", "Refinery", "Prism", "Outcrop"]
+      "adjectives": [
+        "Crystalline",
+        "Shimmering",
+        "Fractured",
+        "Resonant",
+        "Prismatic",
+        "Veined"
+      ],
+      "nouns": [
+        "Geode",
+        "Cavern",
+        "Lattice",
+        "Refinery",
+        "Prism",
+        "Outcrop"
+      ]
     },
     {
       "category": "party",
       "mode": "merge",
-      "adjectives": ["Crystal", "Deepvein", "Glimmering", "Opal", "Quartz", "Faceted"],
-      "nouns": ["Shards", "Delvers", "Prisms", "Resonators", "Facets", "Geodes"]
+      "adjectives": [
+        "Crystal",
+        "Deepvein",
+        "Glimmering",
+        "Opal",
+        "Quartz",
+        "Faceted"
+      ],
+      "nouns": [
+        "Shards",
+        "Delvers",
+        "Prisms",
+        "Resonators",
+        "Facets",
+        "Geodes"
+      ]
+    }
+  ],
+  "monsters": [
+    {
+      "id": "hb_crystalwyrm",
+      "name": "Crystalwyrm",
+      "index": "hb_crystalwyrm",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "neutral",
+      "armor_class": [
+        {
+          "type": "natural",
+          "value": 16
+        }
+      ],
+      "hit_points": 136,
+      "hit_dice": "16d10",
+      "hit_points_roll": "16d10+48",
+      "speed": {
+        "walk": "30 ft.",
+        "fly": "60 ft.",
+        "burrow": "20 ft."
+      },
+      "strength": 19,
+      "dexterity": 12,
+      "constitution": 17,
+      "intelligence": 14,
+      "wisdom": 13,
+      "charisma": 16,
+      "proficiencies": [
+        {
+          "value": 6,
+          "proficiency": {
+            "index": "saving_throw_con",
+            "name": "Saving Throw: CON"
+          }
+        },
+        {
+          "value": 5,
+          "proficiency": {
+            "index": "saving_throw_wis",
+            "name": "Saving Throw: WIS"
+          }
+        },
+        {
+          "value": 5,
+          "proficiency": {
+            "index": "skill_perception",
+            "name": "Skill: Perception"
+          }
+        }
+      ],
+      "damage_vulnerabilities": [
+        "thunder"
+      ],
+      "damage_resistances": [
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [
+        "radiant"
+      ],
+      "condition_immunities": [
+        {
+          "index": "blinded",
+          "name": "Blinded"
+        }
+      ],
+      "senses": {
+        "blindsight": "30 ft.",
+        "darkvision": "120 ft.",
+        "passive_perception": 15
+      },
+      "languages": "Draconic, Terran",
+      "challenge_rating": 8,
+      "proficiency_bonus": 3,
+      "xp": 3900,
+      "special_abilities": [
+        {
+          "name": "Crystalline Body",
+          "desc": "The crystalwyrm's body refracts light. When a creature within 5 feet of the crystalwyrm hits it with a melee attack, the attacker takes 4 (1d8) radiant damage."
+        },
+        {
+          "name": "Prismatic Sight",
+          "desc": "The crystalwyrm can see invisible creatures and objects as if they were visible."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "desc": "The crystalwyrm makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "desc": "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 15 (2d10 + 4) piercing damage plus 4 (1d8) radiant damage."
+        },
+        {
+          "name": "Claw",
+          "desc": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage."
+        },
+        {
+          "name": "Prismatic Breath (Recharge 5-6)",
+          "desc": "The crystalwyrm exhales a 30-foot cone of scintillating light. Each creature in that area must make a DC 14 Dexterity saving throw, taking 36 (8d8) radiant damage on a failed save, or half as much damage on a successful one. A creature that fails the save by 5 or more is also blinded until the end of its next turn."
+        }
+      ],
+      "legendary_actions": []
+    }
+  ],
+  "invocations": [
+    {
+      "id": "hb_eldritch_shroud",
+      "name": "Eldritch Shroud",
+      "description": "You can wrap yourself in a cloak of crackling eldritch energy. As a bonus action, you gain temporary hit points equal to your Charisma modifier (minimum 1) that last for 1 minute. While you have these temporary hit points, your melee weapon attacks deal an extra 1d4 force damage. Once you use this invocation, you can't use it again until you finish a short or long rest.",
+      "level_requirement": 5,
+      "effects": [
+        {
+          "type": "passiveAbility",
+          "data": {
+            "description": "As a bonus action, gain temporary hit points equal to your Charisma modifier (minimum 1) for 1 minute. While active, your melee weapon attacks deal an extra 1d4 force damage. Usable once per short or long rest."
+          }
+        }
+      ]
     }
   ]
 }

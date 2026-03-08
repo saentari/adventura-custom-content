@@ -45,6 +45,7 @@ Custom content packs are JSON files that contain additional D&D content from off
   "equipment": [ ... ],
   "magic_items": [ ... ],
   "spells": [ ... ],
+  "invocations": [ ... ],
   "names": [ ... ]
 }
 ```
@@ -60,6 +61,7 @@ Custom content packs are JSON files that contain additional D&D content from off
 - `equipment` (array) - List of equipment item definitions
 - `magic_items` (array) - List of magic item definitions
 - `spells` (array) - List of spell definitions
+- `invocations` (array) - List of eldritch invocation definitions (warlock feature options)
 - `names` (array) - List of name generation data (species names, adventure/party word lists)
 
 **Note:** At least one content type must be present.
@@ -497,6 +499,58 @@ Both species names and random name word lists can coexist in the same `names` ar
 ```
 
 A pack with *only* `names` (no species, classes, etc.) is valid.
+
+---
+
+### Invocations
+
+Eldritch Invocations are warlock class feature options. Custom invocations appear alongside SRD invocations when leveling up a warlock.
+
+```json
+{
+  "invocations": [
+    {
+      "id": "hb_eldritch_shroud",
+      "name": "Eldritch Shroud",
+      "description": "You can wrap yourself in a cloak of crackling eldritch energy. As a bonus action, you gain temporary hit points equal to your Charisma modifier (minimum 1) that last for 1 minute.",
+      "level_requirement": 5,
+      "effects": [
+        {
+          "type": "passiveAbility",
+          "data": {
+            "description": "As a bonus action, gain temporary hit points equal to your Charisma modifier for 1 minute."
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Required Fields
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique identifier (snake_case) |
+| `name` | string | Display name |
+| `description` | string | Full text description |
+
+#### Optional Fields
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `level_requirement` | integer (1-20) | 1 | Minimum warlock level required |
+| `prerequisite` | string | null | Required spell index (e.g., `"eldritch_blast"`) |
+| `pact_prerequisite` | string | null | Required pact boon (e.g., `"Pact of the Blade"`) |
+| `effects` | array | [] | Mechanical effects (same format as feat effects) |
+
+#### Effect Types
+Effects use the same `{type, data}` format as feats. Common types for invocations:
+- `spellGrant` — grants at-will or limited-use spells: `{"spellIndex": "mage_armor", "usage": "at_will"}`
+- `proficiency` — grants skill proficiency: `{"value": "Deception"}`
+- `senseGrant` — grants a sense: `{"sense": "darkvision", "range": 120}`
+- `damageBonus` — grants bonus damage: `{"value": "charisma_modifier", "type": "necrotic"}`
+- `passiveAbility` — free-form passive ability: `{"description": "..."}`
+- `advantage` — grants advantage: `{"on": "saving_throw", "detail": "concentration"}`
+- `savingThrowBonus` — bonus to saves: `{"value": "1d4"}`
 
 ---
 
