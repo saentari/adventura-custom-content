@@ -3,7 +3,8 @@
     "id": "homebrew_example_5_1",
     "name": "Homebrew Example Pack (2014 Rules)",
     "version": "srd_5_1",
-    "description": "Example homebrew content demonstrating every supported content type for 2014 D&D rules. All content is fictional and original. In SRD 5.1, species grant ability score bonuses and backgrounds grant a feature plus bonus languages."
+    "description": "Example homebrew content demonstrating every supported content type for 2014 D&D rules. All content is fictional and original. In SRD 5.1, species grant ability score bonuses and backgrounds grant a feature plus bonus languages.",
+    "image_url": "https://i.imgur.com/QgDPgWC.jpeg"
   },
   "classes": [
     {

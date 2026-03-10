@@ -3,7 +3,8 @@
     "id": "homebrew_example_5_2",
     "name": "Homebrew Example Pack (2024 Rules)",
     "version": "srd_5_2",
-    "description": "Example homebrew content demonstrating every supported content type for 2024 D&D rules. All content is fictional and original. In SRD 5.2, backgrounds grant ability score bonuses and a feat, while species provide traits without fixed ability scores."
+    "description": "Example homebrew content demonstrating every supported content type for 2024 D&D rules. All content is fictional and original. In SRD 5.2, backgrounds grant ability score bonuses and a feat, while species provide traits without fixed ability scores.",
+    "image_url": "https://i.imgur.com/aYG1Cue.jpeg"
   },
   "classes": [
     {
