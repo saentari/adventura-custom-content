@@ -20,7 +20,7 @@ Adventura now supports importing custom D&D 5e content! This feature allows you 
 You can either:
 - **Create your own** JSON file (see [custom_content_schema.md](./custom_content_schema.md))
 - **Download** pre-made packs (coming soon!)
-- **Use the example** at [custom_content_example.json](./custom_content_example.json)
+- **Use the example** at [homebrew_example_5_1.json](./homebrew_example_5_1.json) / [homebrew_example_5_2.json](./homebrew_example_5_2.json)
 
 ### 2. Import the Content Pack
 
@@ -550,7 +550,7 @@ A: No hard limit, but packs with 50+ items may be slow to load.
 Need help?
 
 - **Documentation:** [custom_content_schema.md](./custom_content_schema.md)
-- **Example:** [custom_content_example.json](./custom_content_example.json)
+- **Example:** [homebrew_example_5_1.json](./homebrew_example_5_1.json) / [homebrew_example_5_2.json](./homebrew_example_5_2.json)
 - **Issues:** [GitHub](https://github.com/anthropics/claude-code/issues)
 
 ---

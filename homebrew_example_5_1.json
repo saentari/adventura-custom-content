@@ -223,6 +223,12 @@
           }
         ]
       },
+      "nonStackingFeatures": [
+        "Extra Attack"
+      ],
+      "extraAttackProgression": {
+        "5": 2
+      },
       "tags": [
         "spellcaster",
         "intelligence",

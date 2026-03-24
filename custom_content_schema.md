@@ -78,7 +78,8 @@ The `source` object identifies your content pack.
     "id": "xanathars_guide",
     "name": "Xanathar's Guide to Everything",
     "version": "srd_5_1",
-    "description": "Additional subclasses and options"
+    "description": "Additional subclasses and options",
+    "image_url": "https://example.com/cover.jpg"
   }
 }
 ```
@@ -91,6 +92,7 @@ The `source` object identifies your content pack.
 | `name` | string | ✅ | Display name of the content pack |
 | `version` | string | ✅ | SRD version compatibility: `srd_5_1` or `srd_5_2` |
 | `description` | string | ❌ | Brief description of the content |
+| `image_url` | string | ❌ | Cover image URL for the content pack (displayed in the content library) |
 
 ### Validation Rules
 - `id` must match pattern: `^[a-z0-9_]+$`
@@ -167,6 +169,8 @@ Base classes omit `baseClass` and instead provide additional fields for hit dice
   },
   "startingCurrency": { "gp": 100 },
   "abilityPriority": ["Intelligence", "Constitution", "Dexterity", "Wisdom", "Charisma", "Strength"],
+  "nonStackingFeatures": ["Extra Attack"],
+  "extraAttackProgression": { "5": 2 },
   "features": {
     "1st": [...],
     "2nd": [...],
@@ -217,6 +221,8 @@ Subclasses can optionally grant additional weapon and armor proficiencies that m
 | `spellcasting` | object | ❌ | Spellcasting configuration (see below) |
 | `startingCurrency` | object | ❌ | Starting gold: `{ "gp": 100 }` |
 | `abilityPriority` | array | ❌ | 6 ability names for auto-fill ordering |
+| `nonStackingFeatures` | array | ❌ | Feature names that don't stack across multiclass (e.g. `["Extra Attack"]`, `["Unarmored Defense"]`) |
+| `extraAttackProgression` | object | ❌ | Class level → number of attacks, for classes with improved Extra Attack (e.g. `{"5": 2, "11": 3, "20": 4}`) |
 
 \* These fields are optional but recommended. A warning is shown on import if they're missing.
 
