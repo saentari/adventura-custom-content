@@ -5,7 +5,9 @@
 Adventura now supports importing custom D&D 5e content! This feature allows you to:
 
 - ✅ Import classes and subclasses from official D&D books (Xanathar's Guide, Tasha's Cauldron, etc.)
-- ✅ Add homebrew species, classes, and backgrounds
+- ✅ Add homebrew species, lineages, classes, subclasses, and backgrounds
+- ✅ Add feats, spells, eldritch invocations, equipment, and magic items
+- ✅ Add deities and monsters for campaign use
 - ✅ Import custom name data for species, adventure, and party name generation
 - ✅ Enable/disable content packs as needed
 - ✅ Track which content source each character uses
@@ -20,7 +22,7 @@ Adventura now supports importing custom D&D 5e content! This feature allows you 
 You can either:
 - **Create your own** JSON file (see [custom_content_schema.md](./custom_content_schema.md))
 - **Download** pre-made packs (coming soon!)
-- **Use the example** at [homebrew_example_5_1.json](./homebrew_example_5_1.json) / [homebrew_example_5_2.json](./homebrew_example_5_2.json)
+- **Use an example pack:** [homebrew_example_5_1.json](./homebrew_example_5_1.json) (2014 rules) or [homebrew_example_5_2.json](./homebrew_example_5_2.json) (2024 rules)
 
 ### 2. Import the Content Pack
 
@@ -518,7 +520,6 @@ Planned enhancements:
 - ✏️ **In-app editor** - Create content without JSON editing
 - 🔄 **Pack updates** - Auto-update imported packs
 - 🏷️ **Tags and filters** - Better content organization
-- 🎲 **Feats and spells** - Additional content types
 - 🤝 **Pack sharing** - Export and share with friends
 
 ---
@@ -550,8 +551,8 @@ A: No hard limit, but packs with 50+ items may be slow to load.
 Need help?
 
 - **Documentation:** [custom_content_schema.md](./custom_content_schema.md)
-- **Example:** [homebrew_example_5_1.json](./homebrew_example_5_1.json) / [homebrew_example_5_2.json](./homebrew_example_5_2.json)
-- **Issues:** [GitHub](https://github.com/anthropics/claude-code/issues)
+- **Examples:** [homebrew_example_5_1.json](./homebrew_example_5_1.json), [homebrew_example_5_2.json](./homebrew_example_5_2.json)
+- **Issues:** [GitHub](https://github.com/saentari/adventura/issues)
 
 ---
 

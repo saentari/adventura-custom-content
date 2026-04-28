@@ -4,7 +4,7 @@ Documentation and examples for creating custom D&D 5e content packs for [Adventu
 
 ## Overview
 
-Adventura supports importing custom content packs as JSON files. You can add classes, subclasses, species, backgrounds, feats, spells, equipment, magic items, and name data for use during character creation.
+Adventura supports importing custom content packs as JSON files. You can add classes, subclasses, species, lineages, backgrounds, feats, spells, equipment, magic items, deities, eldritch invocations, monsters, and name data for use during character creation.
 
 Content packs target a specific rules version:
 
@@ -33,13 +33,17 @@ Both example files contain the same fictional homebrew content to demonstrate ev
 
 - **Runescribe** — a full base class (Intelligence spellcaster with runic magic)
 - **Ironclad** — a Fighter subclass (damage reduction tank)
+- **Pact of the Crystal** — a Warlock subclass (planar crystal patron with a separate spell slot)
 - **Glimmerfolk** — a custom species (crystalline underground dwellers)
 - **Deepvein Glimmerfolk** — a species variant/lineage
 - **Ruin Delver** — a background (ancient ruins explorer)
 - **Glyph Touched & Crystal Marksman** — feats
 - **Crystalline Barrier** — a custom spell
+- **Eldritch Shroud** — a warlock eldritch invocation
+- **Deities** — Vexith the Prismbearer (NG), Or'kael the Bound (LN), Silaxis the Drowned (CE)
 - **Equipment** — Crystal-Tipped Spear, Glimmerweave Chain Shirt, Rune-Etched Lantern, Deep Cavern Lizard
 - **Magic items** — Frostbrand Glaive, Cloak of Crystal Resonance, Potion of Runic Sight, Stoneheart Shield
+- **Monster** — Crystalwyrm (CR 8 dragon) in 5.1, Gloomspore (CR 4 plant) in 5.2
 - **Names** — Glimmerfolk name generation data
 
 The key difference between the two files: in 5.1, species grant ability score bonuses and backgrounds grant a feature; in 5.2, backgrounds grant ability scores and a feat while species provide traits only.

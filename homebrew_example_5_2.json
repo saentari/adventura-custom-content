@@ -4,7 +4,8 @@
     "name": "Homebrew Example Pack (2024 Rules)",
     "version": "srd_5_2",
     "description": "Example homebrew content demonstrating every supported content type for 2024 D&D rules. All content is fictional and original. In SRD 5.2, backgrounds grant ability score bonuses and a feat, while species provide traits without fixed ability scores.",
-    "image_url": "https://i.imgur.com/aYG1Cue.jpeg"
+    "image_url": "https://i.imgur.com/aYG1Cue.jpeg",
+    "document_type": "rulebook"
   },
   "classes": [
     {
@@ -328,6 +329,8 @@
         "Common",
         "Undercommon"
       ],
+      "languageChoiceCount": 0,
+      "_languageChoiceCount_comment": "Number of additional languages the player can choose on top of the base languages listed above. 0 = no extra choices.",
       "speed": 30,
       "size": "Medium",
       "tags": [
@@ -392,6 +395,59 @@
       },
       "feature": "Ruin Reader",
       "featureDescription": "Your experience with ancient sites gives you an intuitive understanding of old construction. When you enter a ruin, tomb, or similar structure, you can spend 10 minutes studying it to determine its approximate age, original purpose, and most likely location of traps or hidden passages."
+    }
+  ],
+  "deities": [
+    {
+      "id": "hb_vexith_prismbearer",
+      "name": "Vexith the Prismbearer",
+      "alignment": "NG",
+      "suggestedDomains": [
+        "Light",
+        "Knowledge"
+      ],
+      "symbol": "A faceted crystal radiating seven colors of light",
+      "pantheon": "Glimmerfolk Crystalline Faith",
+      "description": "Goddess of crystalline light and refracted truth, said to have woven the first runes from beams of moonlight scattered through subterranean prisms.",
+      "tags": [
+        "homebrew",
+        "crystal",
+        "light"
+      ]
+    },
+    {
+      "id": "hb_orkael_the_bound",
+      "name": "Or'kael the Bound",
+      "alignment": "LN",
+      "suggestedDomains": [
+        "Knowledge",
+        "War"
+      ],
+      "symbol": "An iron ring inscribed with three interlocking runes",
+      "pantheon": "Glimmerfolk Crystalline Faith",
+      "description": "God of binding pacts and inscribed law, patron of Runescribes who hold their oaths sacred and their glyphs unbroken.",
+      "tags": [
+        "homebrew",
+        "runes",
+        "law"
+      ]
+    },
+    {
+      "id": "hb_silaxis_the_drowned",
+      "name": "Silaxis the Drowned",
+      "alignment": "CE",
+      "suggestedDomains": [
+        "Tempest",
+        "Death"
+      ],
+      "symbol": "A jagged shard piercing a wave",
+      "pantheon": "Glimmerfolk Crystalline Faith",
+      "description": "The shattered god of broken promises and undertows, blamed by Glimmerfolk elders for caverns that flooded without warning.",
+      "tags": [
+        "homebrew",
+        "tempest",
+        "ruin"
+      ]
     }
   ],
   "feats": [

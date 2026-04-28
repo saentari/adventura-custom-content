@@ -23,12 +23,15 @@ Custom content packs are JSON files that contain additional D&D content from off
 
 **Supported Content Types:**
 - Classes and Subclasses
-- Species (Races)
+- Species (Races) and Lineages
 - Backgrounds
 - Feats
+- Spells
+- Eldritch Invocations
 - Equipment
 - Magic Items
-- Spells
+- Deities
+- Monsters
 - Names (species names, adventure/party name word lists)
 
 ---
@@ -615,13 +618,11 @@ The app validates imported content against these rules:
 
 ### Complete Example
 
-See the example files in `assets/data/examples/`:
-- `homebrew_example_5_1.json` - SRD 5.1 (2014 rules): species have ability score bonuses, backgrounds grant a feature and bonus languages
-- `homebrew_example_5_2.json` - SRD 5.2 (2024 rules): backgrounds grant ability score bonuses and a feat, species provide traits only
+See the example files in this repository:
+- [homebrew_example_5_1.json](./homebrew_example_5_1.json) — SRD 5.1 (2014 rules): species have ability score bonuses, backgrounds grant a feature and bonus languages
+- [homebrew_example_5_2.json](./homebrew_example_5_2.json) — SRD 5.2 (2024 rules): backgrounds grant ability score bonuses and a feat, species provide traits only
 
-See the content packs in `assets/data/custom_content/`:
-- `tashas_cauldron_of_everything.json` - Full Artificer base class with 4 subclasses and levels 1-20
-- `xanathars_guide_to_everything.json` - Subclasses for all 12 SRD classes
+Each example pack demonstrates every supported content type: a base class (Runescribe), a Fighter subclass (Ironclad), a Warlock subclass (Pact of the Crystal), a custom species and lineage (Glimmerfolk / Deepvein Glimmerfolk), a background (Ruin Delver), feats, a spell, an eldritch invocation, equipment, magic items, deities, a monster, and species/random-name data.
 
 ---
 
@@ -654,10 +655,6 @@ Invalid level key: 3 (must be like "3rd")
 ## Future Enhancements
 
 Planned additions to the schema:
-- Feats
-- Equipment and Magic Items
-- Spells
-- Monsters (for DM tools)
 - Version ranges (e.g., compatible with 5.1 AND 5.2)
 - Dependencies between content packs
 
@@ -669,4 +666,4 @@ If you encounter validation errors or need help:
 1. Check the error message for specific field issues
 2. Compare your JSON to the example file
 3. Verify all required fields are present
-4. Report issues at: [GitHub Issues](https://github.com/anthropics/claude-code/issues)
+4. Report issues at: [GitHub Issues](https://github.com/saentari/adventura/issues)
