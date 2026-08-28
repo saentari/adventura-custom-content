@@ -29,24 +29,32 @@ Content packs target a specific rules version:
 
 ## Example content
 
-Both example files contain the same fictional homebrew content to demonstrate every supported content type:
+Both example files carry the same fictional homebrew content, so diffing them
+shows exactly what changes between rule sets:
 
-- **Runescribe** — a full base class (Intelligence spellcaster with runic magic)
-- **Ironclad** — a Fighter subclass (damage reduction tank)
-- **Pact of the Crystal** — a Warlock subclass (planar crystal patron with a separate spell slot)
-- **Glimmerfolk** — a custom species (crystalline underground dwellers)
-- **Deepvein Glimmerfolk** — a species variant/lineage
-- **Ruin Delver** — a background (ancient ruins explorer)
-- **Glyph Touched & Crystal Marksman** — feats
-- **Crystalline Barrier** — a custom spell
-- **Eldritch Shroud** — a warlock eldritch invocation
+- **Runescribe** — a full base class: Intelligence prepared caster, its own subclasses, a level-scaling multi-select feature, and a starting-equipment block
+- **Tradition of the Warden / Tradition of the Sage** — subclasses of that homebrew class, one of which carries a feature choice with mechanical effects
+- **Ironclad** — a Fighter subclass (damage reduction tank) that also grants proficiencies
+- **Pact of the Crystal** — a Warlock Pact Boon added to an existing SRD feature
+- **Glimmerfolk** — a species with darkvision, a resistance, a save advantage, level-scaling spell grants and a skill choice
+- **Deepvein Glimmerfolk / Prismborn Glimmerfolk** — two lineages, the second showing the flexible-choice pickers (floating ability increase, size, feat)
+- **Ruin Delver** — a background, in its 2014 and its 2024 shape
+- **Glyph Touched & Crystal Marksman** — feats with categories, effects and player choices
+- **Runic Mark, Read the Stones, Crystalline Barrier** — a cantrip, a ritual, and a leveled spell
+- **Eldritch Shroud & Shard Ward** — warlock eldritch invocations
 - **Deities** — Vexith the Prismbearer (NG), Or'kael the Bound (LN), Silaxis the Drowned (CE)
-- **Equipment** — Crystal-Tipped Spear, Glimmerweave Chain Shirt, Rune-Etched Lantern, Deep Cavern Lizard
-- **Magic items** — Frostbrand Glaive, Cloak of Crystal Resonance, Potion of Runic Sight, Stoneheart Shield
+- **Equipment** — a versatile weapon, medium armor, a tool that helps ability checks, gear and a mount
+- **Magic items** — eleven of them, covering every effect the app resolves: AC bonuses and conditional ones, an AC formula, saving-throw bonuses, resistance, a granted sense, an open-base weapon that expands over every sword, and consumables that heal, cure, grant temporary hit points, buff a check and grant a status
 - **Monster** — Crystalwyrm (CR 8 dragon) in 5.1, Gloomspore (CR 4 plant) in 5.2
-- **Names** — Glimmerfolk name generation data
+- **Names** — Glimmerfolk names plus adventure and party word lists
 
-The key difference between the two files: in 5.1, species grant ability score bonuses and backgrounds grant a feature; in 5.2, backgrounds grant ability scores and a feat while species provide traits only.
+The key difference between the two files: under 5.1 species grant ability score
+bonuses and the background grants a feature plus bonus languages; under 5.2 the
+background grants the ability score bonuses and a feat, and the species provides
+traits and a size choice.
+
+Everything above is verified against the app on every test run — if the app
+stops reading a field, the example stops demonstrating it and a test fails.
 
 ## License
 

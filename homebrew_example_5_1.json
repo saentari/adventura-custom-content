@@ -12,6 +12,7 @@
       "id": "hb_runescribe",
       "name": "Runescribe",
       "description": "Runescribes are scholars of a forgotten runic language that predates modern magic. By inscribing glyphs onto their skin, weapons, and surroundings, they channel arcane power through pattern and symbol rather than spoken incantation.",
+      "summary": "Intelligence-based prepared caster who inscribes glyphs instead of speaking incantations.",
       "hitDie": 8,
       "savingThrows": [
         "INT",
@@ -32,19 +33,36 @@
         "weaponProficiencies": [
           "Simple weapons"
         ],
+        "toolProficiencies": [
+          "Calligrapher's Supplies"
+        ],
         "toolOptions": [
-          "Calligrapher's Supplies",
           "Painter's Supplies",
           "Jeweler's Tools",
-          "Mason's Tools"
+          "Mason's Tools",
+          "Woodcarver's Tools"
         ],
         "toolChoices": 1,
         "armorTraining": [
           "Light armor"
         ]
       },
+      "multiclassProficiencies": {
+        "armor": [
+          "Light armor"
+        ],
+        "weapons": [],
+        "tools": [
+          "Calligrapher's Supplies"
+        ],
+        "skillChoices": 0,
+        "skillOptions": []
+      },
       "spellcasting": {
         "ability": "Intelligence",
+        "casterType": "full",
+        "isPreparedCaster": true,
+        "initialLevel1Spells": 2,
         "cantripsKnown": [
           2,
           2,
@@ -66,122 +84,85 @@
           4,
           4,
           4
-        ],
-        "spellSlots": {
-          "1": [
-            2,
-            3,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4,
-            4
-          ],
-          "2": [
-            0,
-            0,
-            2,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3
-          ],
-          "3": [
-            0,
-            0,
-            0,
-            0,
-            2,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3
-          ],
-          "4": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3,
-            3
-          ],
-          "5": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
-          ]
-        }
+        ]
       },
+      "asiLevels": [
+        4,
+        8,
+        12,
+        16,
+        19
+      ],
+      "isSpellbookCaster": false,
       "startingCurrency": {
         "gp": 75
+      },
+      "startingEquipment": {
+        "forgoForGold": true,
+        "fixed": [
+          {
+            "itemId": "scholars_pack",
+            "quantity": 1
+          }
+        ],
+        "choices": [
+          {
+            "id": "runescribe_weapon",
+            "description": "any simple weapon of your choice",
+            "options": [
+              {
+                "label": "A simple weapon of your choice",
+                "category": "simpleWeapon",
+                "quantity": 1
+              }
+            ]
+          },
+          {
+            "id": "runescribe_armor",
+            "description": "leather armor or studded leather armor",
+            "options": [
+              {
+                "label": "Leather armor",
+                "items": [
+                  {
+                    "itemId": "leather_armor",
+                    "quantity": 1
+                  }
+                ]
+              },
+              {
+                "label": "Studded leather armor",
+                "items": [
+                  {
+                    "itemId": "studded_leather_armor",
+                    "quantity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "runescribe_tools",
+            "description": "two sets of artisan's tools of your choice",
+            "options": [
+              {
+                "label": "Two sets of artisan's tools",
+                "categorySelections": [
+                  {
+                    "description": "a set of artisan's tools",
+                    "category": "artisanTools",
+                    "quantity": 1
+                  },
+                  {
+                    "description": "a set of artisan's tools",
+                    "category": "artisanTools",
+                    "quantity": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       "abilityPriority": [
         "Intelligence",
@@ -195,23 +176,71 @@
         "1st": [
           {
             "name": "Runic Lexicon",
-            "description": "You have mastered the fundamentals of the ancient runic language. You can spend 10 minutes inscribing a minor glyph onto an object or surface. The glyph sheds dim light in a 5-foot radius, can produce a brief sound when touched, or can display a short message (25 words or fewer) visible only to creatures you designate. You can maintain a number of active glyphs equal to your Intelligence modifier (minimum 1). Creating a new glyph beyond this limit causes the oldest one to fade."
+            "description": "You have mastered the fundamentals of the ancient runic language. You can spend 10 minutes inscribing a minor glyph onto an object or surface. The glyph sheds dim light in a 5-foot radius, can produce a brief sound when touched, or can display a short message (25 words or fewer) visible only to creatures you designate. You can maintain a number of active glyphs equal to your Intelligence modifier (minimum 1). Creating a new glyph beyond this limit causes the oldest one to fade.",
+            "summary": "Inscribe minor glyphs (light, sound, or a short message). Maintain your Intelligence modifier of them at once."
           },
           {
             "name": "Spellcasting",
-            "description": "You channel magic through runic inscriptions rather than verbal incantations. You know two cantrips of your choice. You can prepare a number of spells equal to your Intelligence modifier + your runescribe level (minimum of one). Intelligence is your spellcasting ability. You use calligrapher's supplies or painter's supplies as your spellcasting focus."
+            "description": "You channel magic through runic inscriptions rather than spoken incantations. You know two cantrips of your choice from the Runescribe list. You prepare a number of spells equal to your Intelligence modifier + your Runescribe level (minimum of one), chosen from the spells you can cast, and you can change that list after a long rest. Intelligence is your spellcasting ability. You use calligrapher's supplies or painter's supplies as your spellcasting focus.",
+            "summary": "Prepared Intelligence caster. Prepare INT modifier + Runescribe level spells; calligrapher's supplies are your focus."
           }
         ],
         "2nd": [
           {
-            "name": "Glyph of Warding",
-            "description": "You learn to inscribe protective glyphs. As an action, you can inscribe a glyph on a surface within 5 feet of you. The glyph lasts for 8 hours or until triggered. When a creature you designate enters within 5 feet of the glyph, it flares with energy, and the triggering creature must make a Dexterity saving throw against your spell save DC or take 2d6 radiant damage. You can use this feature a number of times equal to your Intelligence modifier (minimum once), regaining all uses after a long rest."
+            "name": "Inscribed Glyphs",
+            "description": "Your study has produced a personal repertoire of standing glyphs. You know two glyphs of your choice from the list below, and you learn more as you gain levels in this class. Whenever you gain a Runescribe level you can replace one glyph you know with another you qualify for.",
+            "summary": "Learn glyphs from a catalog: 2 at 2nd level, rising to 6 at 18th. Swap one on each level-up.",
+            "multiSelect": {
+              "storageKey": "Inscribed Glyphs",
+              "budgetByLevel": {
+                "2": 2,
+                "6": 3,
+                "10": 4,
+                "14": 5,
+                "18": 6
+              },
+              "swapOnLevelUp": true,
+              "catalog": [
+                {
+                  "name": "Glyph of Kindled Sight",
+                  "description": "A glyph inscribed beneath your eye. You can see in dim light within 30 feet as if it were bright light. If you already have darkvision, its range increases by 30 feet.",
+                  "levelRequirement": 2
+                },
+                {
+                  "name": "Glyph of the Steady Hand",
+                  "description": "A glyph across your knuckles. You have advantage on ability checks made with calligrapher's supplies, painter's supplies, and any artisan's tools you are proficient with.",
+                  "levelRequirement": 2
+                },
+                {
+                  "name": "Glyph of Silent Passage",
+                  "description": "A glyph on the sole of each foot. Your footsteps make no sound while you move no more than half your speed.",
+                  "levelRequirement": 2
+                },
+                {
+                  "name": "Glyph of the Warded Mind",
+                  "description": "A glyph at the base of your skull. You have advantage on saving throws against being charmed.",
+                  "levelRequirement": 6
+                },
+                {
+                  "name": "Glyph of the Second Reading",
+                  "description": "A glyph across your palm. When you fail an Intelligence check to recall lore or decipher writing, you can reroll it. You must finish a short or long rest before using this glyph again.",
+                  "levelRequirement": 10
+                },
+                {
+                  "name": "Glyph of the Anchored Ward",
+                  "description": "A glyph traced over your heart. While you are concentrating on a Runescribe spell, you have advantage on Constitution saving throws made to maintain that concentration.",
+                  "levelRequirement": 10,
+                  "prerequisite": "Glyph of the Warded Mind"
+                }
+              ]
+            }
           }
         ],
         "3rd": [
           {
             "name": "Runic Tradition",
-            "description": "You dedicate yourself to a particular tradition of runic study. Choose one of the following traditions. Your choice grants you additional features at 6th, 10th, and 14th level.",
+            "description": "You dedicate yourself to a particular tradition of runic study. Your choice grants you features at 6th, 10th, and 14th level.",
+            "summary": "Choose a Runic Tradition. It grants features at 6th, 10th, and 14th level.",
             "choices": [
               "Tradition of the Warden",
               "Tradition of the Sage"
@@ -219,16 +248,45 @@
             "choiceDescription": "Choose your Runic Tradition:",
             "choiceDescriptions": {
               "Tradition of the Warden": "Wardens inscribe runes of protection onto armor and shields, becoming resilient defenders who bolster their allies with ancient symbols of fortitude.",
-              "Tradition of the Sage": "Sages study the deepest layers of runic meaning, unlocking the ability to weave multiple glyphs together into complex patterns that amplify their spellcasting."
+              "Tradition of the Sage": "Sages study the deepest layers of runic meaning, weaving several glyphs into a single pattern that amplifies their spellcasting."
             }
           }
+        ],
+        "5th": [
+          {
+            "name": "Empowered Glyphs",
+            "description": "The glyphs you inscribe carry more of your own power. When you deal damage with a Runescribe cantrip, you add your Intelligence modifier to one damage roll of that cantrip.",
+            "summary": "Add your Intelligence modifier to one damage roll of a Runescribe cantrip."
+          }
+        ],
+        "9th": [
+          {
+            "name": "Sealing Glyph",
+            "description": "You can inscribe a glyph of sealing on a door, chest, or window as a 1-minute ritual. The object cannot be opened by any creature you did not designate, and a creature attempting to force it must succeed on a Strength check against your spell save DC. The seal lasts until you finish a long rest or you dismiss it.",
+            "summary": "Seal a door or container for a day. Forcing it requires a Strength check against your spell save DC."
+          }
+        ],
+        "13th": [
+          {
+            "name": "Deep Lexicon",
+            "description": "Your reading of the ancient language is near-complete. You can read any written language, magical or mundane, without needing a spell, and you have advantage on Intelligence checks made to determine the age and origin of an inscription.",
+            "summary": "Read any written language. Advantage on Intelligence checks about an inscription's age and origin."
+          }
+        ],
+        "17th": [
+          {
+            "name": "Living Glyph",
+            "description": "One glyph of your choice from Inscribed Glyphs becomes permanently active and cannot be suppressed by antimagic. You can change which glyph this applies to when you finish a long rest.",
+            "summary": "One known glyph is always active and immune to antimagic. Reassign it on a long rest."
+          }
+        ],
+        "20th": [
+          {
+            "name": "Perfect Inscription",
+            "description": "You have written the language rather than merely read it. When you finish a long rest, choose one Runescribe spell of 5th level or lower that you have prepared. You can cast that spell once without expending a spell slot before your next long rest.",
+            "summary": "After a long rest, one prepared spell of 5th level or lower can be cast once without a slot."
+          }
         ]
-      },
-      "nonStackingFeatures": [
-        "Extra Attack"
-      ],
-      "extraAttackProgression": {
-        "5": 2
       },
       "tags": [
         "spellcaster",
@@ -238,43 +296,171 @@
       ]
     },
     {
+      "id": "hb_tradition_of_the_warden",
+      "name": "Tradition of the Warden",
+      "description": "Wardens inscribe runes of protection onto armor and shields, becoming resilient defenders who bolster their allies with ancient symbols of fortitude.",
+      "baseClass": "runescribe",
+      "proficiencies": {
+        "armorTraining": [
+          "Medium armor",
+          "Shields"
+        ]
+      },
+      "features": {
+        "6th": [
+          {
+            "name": "Warding Sigil",
+            "description": "You can inscribe a sigil on a creature you touch, including yourself, as an action. The next time that creature takes damage, the sigil flares and reduces the damage by 1d8 + your Intelligence modifier, then fades. You can maintain one sigil at a time, and you can inscribe a new one after a short or long rest.",
+            "summary": "Inscribe a sigil that reduces the next damage a creature takes by 1d8 + INT. One at a time, per short rest."
+          }
+        ],
+        "10th": [
+          {
+            "name": "Sigils of the Line",
+            "description": "Your Warding Sigil can be inscribed on up to three creatures at once, and each sigil reduces damage by 1d8 + your Intelligence modifier independently.",
+            "summary": "Warding Sigil can be placed on up to three creatures at once."
+          }
+        ],
+        "14th": [
+          {
+            "name": "Unbroken Ward",
+            "description": "When a creature bearing your Warding Sigil is reduced to 0 hit points, the sigil detonates: the creature drops to 1 hit point instead and the sigil is spent. Once this triggers, you can't use this feature again until you finish a long rest.",
+            "summary": "A sigil-bearer reduced to 0 hit points drops to 1 instead. Once per long rest."
+          }
+        ]
+      },
+      "tags": [
+        "subclass",
+        "runescribe",
+        "defensive",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_tradition_of_the_sage",
+      "name": "Tradition of the Sage",
+      "description": "Sages study the deepest layers of runic meaning, weaving several glyphs into a single pattern that amplifies their spellcasting.",
+      "baseClass": "runescribe",
+      "features": {
+        "6th": [
+          {
+            "name": "Woven Pattern",
+            "description": "You learn to combine glyphs into a standing pattern. Choose one pattern; you can change your choice when you finish a long rest.",
+            "summary": "Choose a standing glyph pattern. Reassign it on a long rest.",
+            "choices": [
+              "Pattern of the Open Page",
+              "Pattern of the Quick Step"
+            ],
+            "choiceDescription": "Choose the pattern you weave:",
+            "choiceDescriptions": {
+              "Pattern of the Open Page": "Glyphs of comprehension trail behind your fingers as you read.",
+              "Pattern of the Quick Step": "Glyphs of momentum settle along your legs."
+            },
+            "choiceData": {
+              "Pattern of the Open Page": {
+                "effects": [
+                  {
+                    "type": "advantage",
+                    "data": {
+                      "on": "skill",
+                      "skills": [
+                        "Arcana",
+                        "History"
+                      ],
+                      "condition": ""
+                    },
+                    "description": "Advantage on Arcana and History checks."
+                  }
+                ]
+              },
+              "Pattern of the Quick Step": {
+                "effects": [
+                  {
+                    "type": "speedBonus",
+                    "data": {
+                      "bonus": 10
+                    },
+                    "description": "Your walking speed increases by 10 feet."
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "10th": [
+          {
+            "name": "Layered Inscription",
+            "description": "When you cast a Runescribe spell of 1st level or higher that targets a single creature, you can layer a second glyph onto it: the target has disadvantage on the first saving throw it makes against that spell. You can do this a number of times equal to your Intelligence modifier, regaining all uses after a long rest.",
+            "summary": "Impose disadvantage on a single-target spell's first save. INT modifier of uses per long rest."
+          }
+        ],
+        "14th": [
+          {
+            "name": "The Whole Sentence",
+            "description": "You read a spell as one continuous inscription rather than a sequence of marks. Once per long rest, when you cast a Runescribe spell of 5th level or lower, you can cast it without expending a spell slot.",
+            "summary": "Cast one Runescribe spell of 5th level or lower without a slot, once per long rest."
+          }
+        ]
+      },
+      "tags": [
+        "subclass",
+        "runescribe",
+        "spellcasting",
+        "homebrew"
+      ]
+    },
+    {
       "id": "hb_ironclad",
       "name": "Ironclad (Fighter)",
       "description": "Ironclad fighters have trained their bodies to shrug off blows that would fell lesser warriors, turning their own resilience into a weapon.",
       "baseClass": "fighter",
+      "proficiencies": {
+        "armorTraining": [
+          "Heavy armor"
+        ],
+        "weaponProficiencies": [
+          "Martial weapons"
+        ]
+      },
       "features": {
         "3rd": [
           {
             "name": "Hardened Constitution",
-            "description": "Your relentless training has toughened your body beyond normal limits. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by an amount equal to your Constitution modifier (minimum of 1). You can use this feature a number of times equal to your proficiency bonus, regaining all uses after a short or long rest."
+            "description": "Your relentless training has toughened your body beyond normal limits. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by an amount equal to your Constitution modifier (minimum of 1). You can use this feature a number of times equal to your proficiency bonus, regaining all uses after a short or long rest.",
+            "summary": "Reaction: reduce nonmagical weapon damage by your Constitution modifier. Proficiency bonus of uses per short rest."
           },
           {
             "name": "Unyielding Stance",
-            "description": "When you are standing on solid ground and not moving, you have advantage on Strength checks and saving throws to resist being moved against your will or knocked prone."
+            "description": "When you are standing on solid ground and not moving, you have advantage on Strength checks and saving throws to resist being moved against your will or knocked prone.",
+            "summary": "Advantage against forced movement and being knocked prone while standing still."
           }
         ],
         "7th": [
           {
             "name": "Retaliating Strike",
-            "description": "When a creature within 5 feet of you hits you with a melee attack, you can use your reaction to make a melee weapon attack against that creature. You can use this feature a number of times equal to your Constitution modifier (minimum once), regaining all uses after a long rest."
+            "description": "When a creature within 5 feet of you hits you with a melee attack, you can use your reaction to make a melee weapon attack against that creature. You can use this feature a number of times equal to your Constitution modifier (minimum once), regaining all uses after a long rest.",
+            "summary": "Reaction: attack a creature that hits you in melee. Constitution modifier of uses per long rest."
           }
         ],
         "10th": [
           {
             "name": "Iron Will",
-            "description": "Your mental fortitude matches your physical endurance. You gain proficiency in Wisdom saving throws. If you already have this proficiency, you gain proficiency in Charisma saving throws instead."
+            "description": "Your mental fortitude matches your physical endurance. You gain proficiency in Wisdom saving throws. If you already have this proficiency, you gain proficiency in Charisma saving throws instead.",
+            "summary": "Gain proficiency in Wisdom saving throws (or Charisma if you already have Wisdom)."
           }
         ],
         "15th": [
           {
             "name": "Indomitable Body",
-            "description": "When you are reduced to 0 hit points but not killed outright, you can choose to drop to 1 hit point instead. Once you use this feature, you can't use it again until you finish a long rest. Additionally, your Hardened Constitution damage reduction now applies to all damage types, not just nonmagical weapon damage."
+            "description": "When you are reduced to 0 hit points but not killed outright, you can choose to drop to 1 hit point instead. Once you use this feature, you can't use it again until you finish a long rest.",
+            "summary": "Drop to 1 hit point instead of 0, once per long rest."
           }
         ],
         "18th": [
           {
-            "name": "Living Fortress",
-            "description": "You become an immovable bulwark on the battlefield. While you are conscious, you and each ally within 10 feet of you gain a bonus to AC equal to half your Constitution modifier (rounded down, minimum +1). Additionally, you can't be frightened or charmed."
+            "name": "Living Bulwark",
+            "description": "You have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons. In addition, Hardened Constitution now reduces damage by twice your Constitution modifier.",
+            "summary": "Resistance to nonmagical weapon damage; Hardened Constitution reduces twice your Constitution modifier."
           }
         ]
       },
@@ -282,7 +468,7 @@
         "martial",
         "subclass",
         "fighter",
-        "tank",
+        "defensive",
         "homebrew"
       ]
     },
@@ -303,7 +489,8 @@
     {
       "id": "hb_glimmerfolk",
       "name": "Glimmerfolk",
-      "description": "Glimmerfolk are a reclusive people born in underground crystalline caverns where raw magic seeps through mineral veins. Their skin has a faint iridescent sheen that shifts color with their emotions, and they possess an innate sensitivity to magical auras. Most Glimmerfolk communities exist deep beneath mountain ranges, though a few have established surface settlements near exposed crystal formations.",
+      "description": "Glimmerfolk are a reclusive people born in underground crystalline caverns where raw magic seeps through mineral veins. Their skin has a faint iridescent sheen that shifts colour with their emotions, and they possess an innate sensitivity to magical auras. Most Glimmerfolk communities exist deep beneath mountain ranges, though a few have established surface settlements near exposed crystal formations.",
+      "creature_type": "Humanoid",
       "abilityScoreBonuses": {
         "INT": 2,
         "DEX": 1
@@ -311,7 +498,11 @@
       "features": [
         {
           "name": "Crystal Sight",
-          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray. Additionally, you can sense the presence of magic within 10 feet of you as a faint shimmer, though you can't determine its school or exact nature without further investigation."
+          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern colour in darkness, only shades of grey. You can also sense the presence of magic within 10 feet of you as a faint shimmer, though not its school or exact nature.",
+          "vision": {
+            "type": "darkvision",
+            "distance": 60
+          }
         },
         {
           "name": "Refractive Skin",
@@ -319,7 +510,41 @@
         },
         {
           "name": "Resonance",
-          "description": "You have resistance to thunder damage. When you take thunder damage, each creature of your choice within 5 feet of you takes thunder damage equal to your proficiency bonus."
+          "description": "You have resistance to thunder damage, and advantage on Constitution saving throws against effects that deal it. When you take thunder damage, each creature of your choice within 5 feet of you takes thunder damage equal to your proficiency bonus.",
+          "damageResistance": "thunder",
+          "saveAdvantage": {
+            "against": "thunder",
+            "abilities": [
+              "CON"
+            ]
+          }
+        },
+        {
+          "name": "Inner Light",
+          "description": "The veins of your skin hold a trace of the caverns you were born in. You know the Light cantrip. At 3rd level you can cast Faerie Fire once per long rest, and at 5th level Misty Step once per long rest. Intelligence is your spellcasting ability for these spells.",
+          "grantedSpells": [
+            "light"
+          ],
+          "levelGrantedSpells": {
+            "3": [
+              "faerie_fire"
+            ],
+            "5": [
+              "misty_step"
+            ]
+          }
+        },
+        {
+          "name": "Cavern Lore",
+          "description": "Your upbringing beneath the mountains taught you one trade in depth. Choose one skill; you gain proficiency in it.",
+          "choices": [
+            "Arcana",
+            "History",
+            "Perception",
+            "Survival"
+          ],
+          "choicesAreSkillProficiencies": true,
+          "maxChoices": 1
         }
       ],
       "characteristics": {
@@ -333,8 +558,7 @@
         "Common",
         "Undercommon"
       ],
-      "languageChoiceCount": 0,
-      "_languageChoiceCount_comment": "Number of additional languages the player can choose on top of the base languages listed above. 0 = no extra choices.",
+      "languageChoiceCount": 1,
       "speed": 30,
       "size": "Medium",
       "tags": [
@@ -356,11 +580,32 @@
       "features": [
         {
           "name": "Superior Darkvision",
-          "description": "Your darkvision extends to 120 feet. You can see in magical darkness within 30 feet of you as if it were dim light."
+          "description": "Your darkvision extends to 120 feet. You can see in magical darkness within 30 feet of you as if it were dim light.",
+          "vision": {
+            "type": "darkvision",
+            "distance": 120
+          }
         },
         {
           "name": "Tremorsense",
-          "description": "You can detect and pinpoint the origin of vibrations within 15 feet of you, provided you and the source of the vibrations are in contact with the same ground or substance."
+          "description": "You can detect and pinpoint the origin of vibrations within 15 feet of you, provided you and the source of the vibrations are in contact with the same ground or substance.",
+          "vision": {
+            "type": "tremorsense",
+            "distance": 15
+          }
+        },
+        {
+          "name": "Stone-Trained",
+          "description": "Long tunnels teach a particular kind of patience. You gain proficiency with mason's tools, and you have advantage on saving throws against being poisoned by cavern gases and moulds.",
+          "toolProficiencies": [
+            "Mason's Tools"
+          ],
+          "saveAdvantage": {
+            "against": "poisoned",
+            "abilities": [
+              "CON"
+            ]
+          }
         }
       ],
       "tags": [
@@ -368,6 +613,38 @@
         "deep",
         "homebrew"
       ]
+    },
+    {
+      "id": "hb_prismborn_glimmerfolk",
+      "name": "Prismborn Glimmerfolk",
+      "baseSpecies": "hb_glimmerfolk",
+      "description": "Prismborn are Glimmerfolk whose crystal veins formed close to the surface, where sunlight reached them. No two are quite alike: the light that shaped them settled differently in each.",
+      "features": [
+        {
+          "name": "Refracted Growth",
+          "description": "The light that formed you left its own mark. Your body took a shape the deep caverns never produce."
+        }
+      ],
+      "tags": [
+        "surface",
+        "variable",
+        "homebrew"
+      ],
+      "flexibleChoices": {
+        "abilityScores": {
+          "count": 1,
+          "increase": 2
+        },
+        "size": {
+          "options": [
+            "Small",
+            "Medium"
+          ]
+        },
+        "feats": {
+          "count": 1
+        }
+      }
     }
   ],
   "backgrounds": [
@@ -391,7 +668,10 @@
         "A pouch containing 10 gp"
       ],
       "feature": "Ruin Reader",
-      "featureDescription": "Your experience with ancient sites gives you an intuitive understanding of old construction. When you enter a ruin, tomb, or similar structure, you can spend 10 minutes studying it to determine its approximate age, original purpose, and most likely location of traps or hidden passages."
+      "featureDescription": "Your experience with ancient sites gives you an intuitive understanding of old construction. When you enter a ruin, tomb, or similar structure, you can spend 10 minutes studying it to determine its approximate age, original purpose, and most likely location of traps or hidden passages.",
+      "spells": [
+        "comprehend_languages"
+      ]
     }
   ],
   "deities": [
@@ -403,7 +683,7 @@
         "Light",
         "Knowledge"
       ],
-      "symbol": "A faceted crystal radiating seven colors of light",
+      "symbol": "A faceted crystal radiating seven colours of light",
       "pantheon": "Glimmerfolk Crystalline Faith",
       "description": "Goddess of crystalline light and refracted truth, said to have woven the first runes from beams of moonlight scattered through subterranean prisms.",
       "tags": [
@@ -451,8 +731,11 @@
     {
       "id": "hb_glyph_touched",
       "name": "Glyph Touched",
-      "description": "Marked by an ancient runic inscription, you can channel protective magic",
+      "description": "An ancient runic inscription was made on you before you could read it, and it has been part of you ever since.",
+      "summary": "+1 Intelligence (max 20). You learn the Resistance cantrip, and once per long rest you can grant temporary hit points as a reaction.",
       "prerequisites": "",
+      "category": "general",
+      "minimumLevel": 4,
       "effects": [
         {
           "type": "abilityScoreBonus",
@@ -465,12 +748,16 @@
         },
         {
           "type": "passiveAbility",
-          "data": {},
+          "data": {
+            "ability": "glyph_touched_cantrip"
+          },
           "description": "You learn the Resistance cantrip. Intelligence is your spellcasting ability for it."
         },
         {
           "type": "passiveAbility",
-          "data": {},
+          "data": {
+            "ability": "glyph_touched_ward"
+          },
           "description": "Once per long rest, when you or a creature within 30 feet of you takes damage, you can use your reaction to grant them temporary hit points equal to your Intelligence modifier + your proficiency bonus."
         }
       ],
@@ -483,8 +770,11 @@
     {
       "id": "hb_crystal_marksman",
       "name": "Crystal Marksman",
-      "description": "Your training with crystalline weapons grants you exceptional accuracy with ranged attacks",
-      "prerequisites": "",
+      "description": "You have trained with crystal-fletched ammunition, whose flight you can read a fraction of a second before it lands.",
+      "summary": "+1 to ranged weapon attack and damage rolls, +1 to an ability score of your choice, and proficiency in one skill.",
+      "prerequisites": "Dexterity 13 or higher",
+      "category": "general",
+      "minimumLevel": 4,
       "effects": [
         {
           "type": "damageBonus",
@@ -495,13 +785,37 @@
           "description": "+1 to ranged weapon attack rolls"
         },
         {
-          "type": "abilityScoreBonus",
+          "type": "damageBonus",
           "data": {
-            "ability": "DEX",
+            "bonus": 1,
+            "type": "ranged_damage"
+          },
+          "description": "+1 to ranged weapon damage rolls"
+        },
+        {
+          "type": "abilityScoreChoice",
+          "data": {
+            "abilities": [
+              "DEX",
+              "WIS"
+            ],
             "bonus": 1,
             "max": 20
           },
-          "description": "+1 Dexterity (max 20)"
+          "description": "+1 Dexterity or Wisdom (max 20)"
+        }
+      ],
+      "choices": [
+        {
+          "id": "hb_crystal_marksman_skill",
+          "label": "Choose a skill proficiency",
+          "type": "skill",
+          "options": [
+            "Perception",
+            "Sleight of Hand",
+            "Survival"
+          ],
+          "maxSelections": 1
         }
       ],
       "tags": [
@@ -513,8 +827,67 @@
   ],
   "spells": [
     {
-      "id": "hb-crystalline-barrier",
+      "id": "hb_runic_mark",
+      "name": "Runic Mark",
+      "index": "hb_runic_mark",
+      "level": 0,
+      "school": "Transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": [
+        "V",
+        "S",
+        "M"
+      ],
+      "material": "a stick of chalk, which the spell consumes",
+      "duration": "1 hour",
+      "concentration": false,
+      "ritual": false,
+      "classes": [
+        "wizard",
+        "sorcerer",
+        "warlock"
+      ],
+      "description": "You draw a single rune on a surface you touch. The rune is invisible to any creature you did not designate when you cast the spell, and it glows faintly to those who can see it. You choose the rune's meaning from a short list agreed with your allies: safe, danger, this way, or turn back.",
+      "tags": [
+        "utility",
+        "cantrip",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_read_the_stones",
+      "name": "Read the Stones",
+      "index": "hb_read_the_stones",
+      "level": 1,
+      "school": "Divination",
+      "casting_time": "1 minute",
+      "range": "Touch",
+      "components": [
+        "V",
+        "S",
+        "M"
+      ],
+      "material": "a pinch of powdered quartz",
+      "duration": "Instantaneous",
+      "concentration": false,
+      "ritual": true,
+      "classes": [
+        "wizard",
+        "cleric",
+        "druid"
+      ],
+      "description": "You press your palm to worked stone and learn what has happened around it. You receive a brief impression of the most significant event to occur within 30 feet of the stone in the last ten years: who was present, roughly when, and whether it ended in violence. The impression is a sensation rather than a scene, and it names nobody.",
+      "tags": [
+        "divination",
+        "ritual",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_crystalline_barrier",
       "name": "Crystalline Barrier",
+      "index": "hb_crystalline_barrier",
       "level": 2,
       "school": "Abjuration",
       "casting_time": "1 reaction, which you take when you or a creature within 30 feet is targeted by an attack",
@@ -525,6 +898,7 @@
       ],
       "duration": "1 round",
       "concentration": false,
+      "ritual": false,
       "classes": [
         "wizard",
         "sorcerer"
@@ -559,6 +933,13 @@
           "name": "Piercing"
         }
       },
+      "two_handed_damage": {
+        "damage_dice": "1d10",
+        "damage_type": {
+          "index": "piercing",
+          "name": "Piercing"
+        }
+      },
       "weight": 4,
       "properties": [
         {
@@ -570,16 +951,12 @@
           "name": "Versatile"
         }
       ],
+      "range": {
+        "normal": 5
+      },
       "throw_range": {
         "normal": 20,
         "long": 60
-      },
-      "two_hand_damage": {
-        "damage_dice": "1d10",
-        "damage_type": {
-          "index": "piercing",
-          "name": "Piercing"
-        }
       },
       "desc": "A martial spear with a head carved from resonant crystal found deep in Glimmerfolk caverns. The crystal tip holds an edge as well as steel and emits a faint chime on impact.",
       "tags": [
@@ -614,6 +991,36 @@
         "armor",
         "medium",
         "crystal",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_delvers_prybar",
+      "name": "Delver's Prybar",
+      "index": "hb_delvers_prybar",
+      "equipment_category": {
+        "index": "adventuring_gear",
+        "name": "Adventuring Gear"
+      },
+      "cost": {
+        "quantity": 12,
+        "unit": "gp"
+      },
+      "weight": 6,
+      "desc": "A long crowbar with a forked head, weighted for levering slabs rather than crates. Ruin delvers carry one whether or not they expect a door.",
+      "checkEffects": [
+        {
+          "ability": "strength",
+          "advantage": true
+        },
+        {
+          "skill": "athletics",
+          "bonus": 2
+        }
+      ],
+      "tags": [
+        "gear",
+        "tool",
         "homebrew"
       ]
     },
@@ -671,8 +1078,16 @@
       "rarity": {
         "name": "Rare"
       },
-      "variant": false,
-      "variants": [],
+      "requiresAttunement": true,
+      "wornEffects": [
+        {
+          "type": "resistance",
+          "data": {
+            "damageType": "fire"
+          },
+          "description": "While you hold the glaive, you have resistance to fire damage."
+        }
+      ],
       "desc": [
         "Weapon (glaive), rare (requires attunement)",
         "This glaive's blade is forged from crystallized glacial ice held rigid by Runescribe enchantments. When you hit with an attack using this weapon, the target takes an extra 1d6 cold damage. In addition, while you hold the glaive, you have resistance to fire damage.",
@@ -687,6 +1102,176 @@
       ]
     },
     {
+      "id": "hb_shard_singer",
+      "name": "Shard Singer",
+      "index": "hb_shard_singer",
+      "equipment_category": {
+        "index": "weapon",
+        "name": "Weapon"
+      },
+      "rarity": {
+        "name": "Very Rare"
+      },
+      "requiresAttunement": true,
+      "desc": [
+        "Weapon (any sword), very rare (requires attunement)",
+        "A seam of crystal runs the length of this blade and hums a single sustained note while it is drawn. The note rises as the blade nears a Glimmerfolk ruin.",
+        "You have advantage on Wisdom (Perception) checks made to notice concealed doors and hollow walls within 30 feet."
+      ],
+      "tags": [
+        "magic",
+        "weapon",
+        "crystal",
+        "very rare",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_stoneheart_shield",
+      "name": "Stoneheart Shield",
+      "index": "hb_stoneheart_shield",
+      "equipment_category": {
+        "index": "armor",
+        "name": "Armor"
+      },
+      "rarity": {
+        "name": "Rare"
+      },
+      "requiresAttunement": true,
+      "wornEffects": [
+        {
+          "type": "acBonus",
+          "data": {
+            "flat": 1
+          },
+          "description": "+1 bonus to AC, in addition to the shield's normal bonus."
+        }
+      ],
+      "desc": [
+        "Armor (shield), rare (requires attunement)",
+        "This heavy shield is carved from a single piece of enchanted granite veined with glowing runic patterns. While wielding this shield, you gain a +1 bonus to AC in addition to the shield's normal bonus.",
+        "Stoneheart Resilience. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by 1d6 + your Constitution modifier. You can use this property three times, regaining all uses after a long rest.",
+        "Immovable Stance. While wielding this shield, you have advantage on saving throws and ability checks against being knocked prone or moved against your will."
+      ],
+      "tags": [
+        "magic",
+        "armor",
+        "shield",
+        "rare",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_wardens_bracers",
+      "name": "Warden's Bracers",
+      "index": "hb_wardens_bracers",
+      "equipment_category": {
+        "index": "wondrous_item",
+        "name": "Wondrous Item"
+      },
+      "rarity": {
+        "name": "Rare"
+      },
+      "requiresAttunement": true,
+      "wornEffects": [
+        {
+          "type": "acBonus",
+          "data": {
+            "flat": 2,
+            "condition": "noArmorNoShield"
+          },
+          "description": "+2 bonus to AC while you wear no armor and carry no shield."
+        }
+      ],
+      "desc": [
+        "Wondrous item, rare (requires attunement)",
+        "A pair of bracers cut from a single crystal seam, worn by Runescribe wardens who fight in nothing heavier than a robe. While wearing these bracers and using no armor or shield, you gain a +2 bonus to AC."
+      ],
+      "tags": [
+        "magic",
+        "wondrous",
+        "rare",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_robe_of_the_lexicon",
+      "name": "Robe of the Lexicon",
+      "index": "hb_robe_of_the_lexicon",
+      "equipment_category": {
+        "index": "wondrous_item",
+        "name": "Wondrous Item"
+      },
+      "rarity": {
+        "name": "Legendary"
+      },
+      "requiresAttunement": true,
+      "wornEffects": [
+        {
+          "type": "acFormula",
+          "data": {
+            "base": 15,
+            "abilities": [
+              "DEX"
+            ],
+            "condition": "noArmor"
+          },
+          "description": "Your base AC is 15 + your Dexterity modifier while you wear no armor."
+        },
+        {
+          "type": "savingThrowBonus",
+          "data": {
+            "flat": 2
+          },
+          "description": "+2 bonus to all saving throws."
+        }
+      ],
+      "desc": [
+        "Wondrous item, legendary (requires attunement)",
+        "Every inch of this robe is covered in glyphs written small enough to read only with a lens. While you wear it, your base Armor Class is 15 + your Dexterity modifier, and you have a +2 bonus to all saving throws.",
+        "The glyphs rearrange themselves overnight. Scholars disagree about whether they are being written or merely reordered."
+      ],
+      "tags": [
+        "magic",
+        "wondrous",
+        "legendary",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_goggles_of_glimmersight",
+      "name": "Goggles of Glimmersight",
+      "index": "hb_goggles_of_glimmersight",
+      "equipment_category": {
+        "index": "wondrous_item",
+        "name": "Wondrous Item"
+      },
+      "rarity": {
+        "name": "Uncommon"
+      },
+      "wornEffects": [
+        {
+          "type": "senseGrant",
+          "data": {
+            "sense": "darkvision",
+            "range": 60,
+            "stack": "increase"
+          },
+          "description": "You gain darkvision out to 60 feet, or extend existing darkvision by 60 feet."
+        }
+      ],
+      "desc": [
+        "Wondrous item, uncommon",
+        "Two ground crystal lenses in a leather frame. While wearing these goggles, you have darkvision out to 60 feet. If you already have darkvision, its range increases by 60 feet."
+      ],
+      "tags": [
+        "magic",
+        "wondrous",
+        "uncommon",
+        "homebrew"
+      ]
+    },
+    {
       "id": "hb_cloak_of_crystal_resonance",
       "name": "Cloak of Crystal Resonance",
       "index": "hb_cloak_of_crystal_resonance",
@@ -697,8 +1282,7 @@
       "rarity": {
         "name": "Uncommon"
       },
-      "variant": false,
-      "variants": [],
+      "requiresAttunement": true,
       "desc": [
         "Wondrous item, uncommon (requires attunement)",
         "This cloak is woven with threads of resonant crystal and hums faintly when magic is nearby. While wearing this cloak, you have advantage on saving throws against spells and other magical effects that deal thunder damage.",
@@ -723,12 +1307,19 @@
       "rarity": {
         "name": "Uncommon"
       },
-      "variant": false,
-      "variants": [],
+      "useEffects": [
+        {
+          "type": "grant_status",
+          "status": "runic sight",
+          "skill": "arcana",
+          "advantage": true,
+          "durationTurns": 10
+        }
+      ],
       "desc": [
         "Potion, uncommon",
         "This shimmering violet liquid contains tiny floating crystal motes that catch the light. When you drink this potion, you gain the ability to see invisible creatures and objects, as well as into the Ethereal Plane, out to a range of 60 feet for 1 hour.",
-        "Additionally, for the duration, any magical writing (such as glyphs of warding or arcane locks) within your line of sight glows with a faint blue outline, granting you advantage on Intelligence (Arcana) checks to identify or decipher them."
+        "Additionally, for the duration, any magical writing within your line of sight glows with a faint blue outline, granting you advantage on Intelligence (Arcana) checks to identify or decipher it."
       ],
       "tags": [
         "magic",
@@ -739,29 +1330,97 @@
       ]
     },
     {
-      "id": "hb_stoneheart_shield",
-      "name": "Stoneheart Shield",
-      "index": "hb_stoneheart_shield",
+      "id": "hb_potion_of_stone_mending",
+      "name": "Potion of Stone Mending",
+      "index": "hb_potion_of_stone_mending",
       "equipment_category": {
-        "index": "armor",
-        "name": "Armor"
+        "index": "potion",
+        "name": "Potion"
       },
       "rarity": {
-        "name": "Rare"
+        "name": "Common"
       },
-      "variant": false,
-      "variants": [],
+      "useEffects": [
+        {
+          "type": "heal",
+          "amount": "2d4+2"
+        }
+      ],
       "desc": [
-        "Armor (shield), rare (requires attunement)",
-        "This heavy shield is carved from a single piece of enchanted granite veined with glowing runic patterns. While wielding this shield, you gain a +1 bonus to AC in addition to the shield's normal bonus.",
-        "Stoneheart Resilience. When you take bludgeoning, piercing, or slashing damage from a nonmagical weapon, you can use your reaction to reduce the damage by 1d6 + your Constitution modifier. You can use this property three times, regaining all uses after a long rest.",
-        "Immovable Stance. While wielding this shield, you have advantage on saving throws and ability checks against being knocked prone or moved against your will."
+        "Potion, common",
+        "A grey suspension that tastes of wet slate. You regain 2d4 + 2 hit points when you drink it, and any cut it closes leaves a thin mineral seam behind."
       ],
       "tags": [
         "magic",
-        "armor",
-        "shield",
-        "rare",
+        "potion",
+        "healing",
+        "common",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_antitoxin_crystal",
+      "name": "Antitoxin Crystal",
+      "index": "hb_antitoxin_crystal",
+      "equipment_category": {
+        "index": "potion",
+        "name": "Potion"
+      },
+      "rarity": {
+        "name": "Uncommon"
+      },
+      "useEffects": [
+        {
+          "type": "cure_condition",
+          "conditions": [
+            "poisoned"
+          ]
+        },
+        {
+          "type": "temp_hp",
+          "amount": "5"
+        }
+      ],
+      "desc": [
+        "Potion, uncommon",
+        "A shard of pale crystal that dissolves on the tongue. It ends the poisoned condition on you and grants 5 temporary hit points."
+      ],
+      "tags": [
+        "magic",
+        "potion",
+        "cure",
+        "uncommon",
+        "homebrew"
+      ]
+    },
+    {
+      "id": "hb_dust_of_the_delver",
+      "name": "Dust of the Delver",
+      "index": "hb_dust_of_the_delver",
+      "equipment_category": {
+        "index": "wondrous_item",
+        "name": "Wondrous Item"
+      },
+      "rarity": {
+        "name": "Common"
+      },
+      "useEffects": [
+        {
+          "type": "check_buff",
+          "skill": "perception",
+          "advantage": true,
+          "uses": 1
+        }
+      ],
+      "desc": [
+        "Wondrous item, common",
+        "A pinch of powdered crystal in a twist of oilcloth. Blown into the air, it settles on seams a wall is trying to hide: you have advantage on your next Wisdom (Perception) check."
+      ],
+      "tags": [
+        "magic",
+        "wondrous",
+        "consumable",
+        "common",
         "homebrew"
       ]
     }
@@ -961,6 +1620,12 @@
           "desc": "The crystalwyrm exhales a 30-foot cone of scintillating light. Each creature in that area must make a DC 14 Dexterity saving throw, taking 36 (8d8) radiant damage on a failed save, or half as much damage on a successful one. A creature that fails the save by 5 or more is also blinded until the end of its next turn."
         }
       ],
+      "reactions": [
+        {
+          "name": "Refracting Scales",
+          "desc": "When the crystalwyrm is hit by a ranged attack, it can turn a scale into the path of the shot. The attacker must reroll the attack and use the lower result."
+        }
+      ],
       "legendary_actions": []
     }
   ],
@@ -968,16 +1633,17 @@
     {
       "id": "hb_eldritch_shroud",
       "name": "Eldritch Shroud",
+      "index": "hb_eldritch_shroud",
       "description": "You can wrap yourself in a cloak of crackling eldritch energy. As a bonus action, you gain temporary hit points equal to your Charisma modifier (minimum 1) that last for 1 minute. While you have these temporary hit points, your melee weapon attacks deal an extra 1d4 force damage. Once you use this invocation, you can't use it again until you finish a short or long rest.",
-      "level_requirement": 5,
-      "effects": [
-        {
-          "type": "passiveAbility",
-          "data": {
-            "description": "As a bonus action, gain temporary hit points equal to your Charisma modifier (minimum 1) for 1 minute. While active, your melee weapon attacks deal an extra 1d4 force damage. Usable once per short or long rest."
-          }
-        }
-      ]
+      "level_requirement": 5
+    },
+    {
+      "id": "hb_shard_ward",
+      "name": "Shard Ward",
+      "index": "hb_shard_ward",
+      "description": "Your patron's crystal interposes itself unbidden. When a creature you can see hits you with an attack, you can use your reaction to add your Charisma modifier to your AC against that attack, potentially causing it to miss. Once you use this invocation, you can't use it again until you finish a short or long rest.",
+      "level_requirement": 7,
+      "prerequisite": "Pact of the Crystal"
     }
   ]
 }

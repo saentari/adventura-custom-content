@@ -1,5 +1,10 @@
 # Custom Content Guide
 
+> This file is published at
+> [github.com/saentari/adventura-custom-content](https://github.com/saentari/adventura-custom-content)
+> and kept byte-identical in both places. Edit it in the app repo under `docs/`,
+> then copy it across — a fork here is how the two copies drifted before.
+
 ## Introduction
 
 Adventura now supports importing custom D&D 5e content! This feature allows you to:
@@ -20,9 +25,9 @@ Adventura now supports importing custom D&D 5e content! This feature allows you 
 ### 1. Get a Content Pack
 
 You can either:
-- **Create your own** JSON file (see [custom_content_schema.md](./custom_content_schema.md))
+- **Create your own** JSON file (see [custom_content_schema.md](https://github.com/saentari/adventura-custom-content/blob/main/custom_content_schema.md))
 - **Download** pre-made packs (coming soon!)
-- **Use an example pack:** [homebrew_example_5_1.json](./homebrew_example_5_1.json) (2014 rules) or [homebrew_example_5_2.json](./homebrew_example_5_2.json) (2024 rules)
+- **Use an example pack:** [homebrew_example_5_1.json](https://github.com/saentari/adventura-custom-content/blob/main/homebrew_example_5_1.json) (2014 rules) or [homebrew_example_5_2.json](https://github.com/saentari/adventura-custom-content/blob/main/homebrew_example_5_2.json) (2024 rules)
 
 ### 2. Import the Content Pack
 
@@ -140,7 +145,7 @@ Content packs use JSON format. Here's a minimal example:
 
 ### Full Schema
 
-See [custom_content_schema.md](./custom_content_schema.md) for:
+See [custom_content_schema.md](https://github.com/saentari/adventura-custom-content/blob/main/custom_content_schema.md) for:
 - Complete field reference
 - Validation rules
 - Advanced examples
@@ -261,7 +266,7 @@ Customize the word lists used to generate adventure and party names. Entries are
 
 When `mode` is omitted, it defaults to `"merge"`. Use `"mode": "replace"` to completely override the built-in word lists.
 
-See [custom_content_schema.md](./custom_content_schema.md) for the full field reference.
+See [custom_content_schema.md](https://github.com/saentari/adventura-custom-content/blob/main/custom_content_schema.md) for the full field reference.
 
 ---
 
@@ -550,8 +555,8 @@ A: No hard limit, but packs with 50+ items may be slow to load.
 
 Need help?
 
-- **Documentation:** [custom_content_schema.md](./custom_content_schema.md)
-- **Examples:** [homebrew_example_5_1.json](./homebrew_example_5_1.json), [homebrew_example_5_2.json](./homebrew_example_5_2.json)
+- **Documentation:** [custom_content_schema.md](https://github.com/saentari/adventura-custom-content/blob/main/custom_content_schema.md)
+- **Examples:** [homebrew_example_5_1.json](https://github.com/saentari/adventura-custom-content/blob/main/homebrew_example_5_1.json), [homebrew_example_5_2.json](https://github.com/saentari/adventura-custom-content/blob/main/homebrew_example_5_2.json)
 - **Issues:** [GitHub](https://github.com/saentari/adventura/issues)
 
 ---

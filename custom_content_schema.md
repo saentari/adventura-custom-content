@@ -1,5 +1,10 @@
 # Custom Content JSON Schema Documentation
 
+> This file is published at
+> [github.com/saentari/adventura-custom-content](https://github.com/saentari/adventura-custom-content)
+> and kept byte-identical in both places. Edit it in the app repo under `docs/`,
+> then copy it across — a fork here is how the two copies drifted before.
+
 This document describes the JSON schema format for importing custom D&D 5e content into Adventura.
 
 ## Table of Contents
@@ -10,8 +15,14 @@ This document describes the JSON schema format for importing custom D&D 5e conte
 - [Content Types](#content-types)
   - [Classes](#classes)
   - [Species](#species)
+  - [Lineages](#lineages)
   - [Backgrounds](#backgrounds)
+  - [Feats](#feats)
+  - [Equipment and Magic Items](#equipment-and-magic-items)
   - [Names](#names)
+  - [Deities](#deities)
+  - [Invocations](#invocations)
+  - [Monsters](#monsters)
 - [Validation Rules](#validation-rules)
 - [Examples](#examples)
 
@@ -23,16 +34,16 @@ Custom content packs are JSON files that contain additional D&D content from off
 
 **Supported Content Types:**
 - Classes and Subclasses
-- Species (Races) and Lineages
+- Species and Lineages
 - Backgrounds
 - Feats
 - Spells
-- Eldritch Invocations
 - Equipment
 - Magic Items
 - Deities
+- Eldritch Invocations
 - Monsters
-- Names (species names, adventure/party name word lists)
+- Names (species names and random-name word lists)
 
 ---
 
@@ -43,12 +54,15 @@ Custom content packs are JSON files that contain additional D&D content from off
   "source": { ... },
   "classes": [ ... ],
   "species": [ ... ],
+  "lineages": [ ... ],
   "backgrounds": [ ... ],
   "feats": [ ... ],
+  "spells": [ ... ],
   "equipment": [ ... ],
   "magic_items": [ ... ],
-  "spells": [ ... ],
+  "deities": [ ... ],
   "invocations": [ ... ],
+  "monsters": [ ... ],
   "names": [ ... ]
 }
 ```
@@ -57,15 +71,18 @@ Custom content packs are JSON files that contain additional D&D content from off
 - `source` (object) - Metadata about the content pack
 
 ### Optional Fields
-- `classes` (array) - List of class/subclass definitions
-- `species` (array) - List of species definitions
-- `backgrounds` (array) - List of background definitions
-- `feats` (array) - List of feat definitions
-- `equipment` (array) - List of equipment item definitions
-- `magic_items` (array) - List of magic item definitions
-- `spells` (array) - List of spell definitions
-- `invocations` (array) - List of eldritch invocation definitions (warlock feature options)
-- `names` (array) - List of name generation data (species names, adventure/party word lists)
+- `classes` (array) - Base classes and subclasses
+- `species` (array) - Species definitions
+- `lineages` (array) - Lineages / subraces of a species
+- `backgrounds` (array) - Background definitions
+- `feats` (array) - Feat definitions
+- `spells` (array) - Spell definitions
+- `equipment` (array) - Mundane gear
+- `magic_items` (array) - Anything with a `rarity`
+- `deities` (array) - Deities offered at character creation
+- `invocations` (array) - Eldritch Invocations
+- `monsters` (array) - Stat blocks
+- `names` (array) - Species name data and random-name word lists
 
 **Note:** At least one content type must be present.
 
@@ -81,11 +98,15 @@ The `source` object identifies your content pack.
     "id": "xanathars_guide",
     "name": "Xanathar's Guide to Everything",
     "version": "srd_5_1",
-    "description": "Additional subclasses and options",
-    "image_url": "https://example.com/cover.jpg"
+    "compatible_versions": ["srd_5_1"],
+    "description": "Additional subclasses and options"
   }
 }
 ```
+
+A 2014 book declares `["srd_5_1"]` — one edition per pack. See
+[Default to one edition per pack](#default-to-one-edition-per-pack) before
+listing both.
 
 ### Fields
 
@@ -93,13 +114,15 @@ The `source` object identifies your content pack.
 |-------|------|----------|-------------|
 | `id` | string | ✅ | Unique identifier (lowercase, underscores only) |
 | `name` | string | ✅ | Display name of the content pack |
-| `version` | string | ✅ | SRD version compatibility: `srd_5_1` or `srd_5_2` |
+| `version` | string | ✅ | Primary SRD version: `srd_5_1` or `srd_5_2`. Drives terminology (Races/Subraces vs Species/Lineages) and is the fallback compatibility version |
+| `compatible_versions` | string[] | ❌ | SRD versions this pack works with, e.g. `["srd_5_1", "srd_5_2"]`. When omitted/empty, compatibility falls back to `version` (exact match) |
+| `revision` | integer | ❌ | Monotonic content revision for app-bundled system packs only. Bump it to make the app re-seed updated content. Ignored for user-imported packs (default `0`) |
 | `description` | string | ❌ | Brief description of the content |
-| `image_url` | string | ❌ | Cover image URL for the content pack (displayed in the content library) |
 
 ### Validation Rules
 - `id` must match pattern: `^[a-z0-9_]+$`
 - `version` must be exactly `srd_5_1` or `srd_5_2`
+- each `compatible_versions` entry must be exactly `srd_5_1` or `srd_5_2`
 
 ### Version System Explained
 
@@ -113,7 +136,25 @@ The `version` field indicates which D&D rule set your content is formatted for:
   - Use for books published 2024 onwards
   - The app will interpret mechanics using 2024 rule conventions
 
-**Key Point:** Books published before 2024 (like Xanathar's Guide 2017 or Tasha's Cauldron 2020) should use `srd_5_1` even though they're compatible with both rule sets. The version tells the app *how to interpret* the content, not which books are compatible.
+**Key Point:** `version` tells the app *how to interpret* the content (which terminology and rule conventions to apply), not which rule sets it can be used with. Books published before 2024 (like Xanathar's Guide 2017 or Tasha's Cauldron 2020) should set `version` to `srd_5_1` even though they're playable under both rule sets.
+
+To make a pack selectable under more than one rule set, list every compatible version in `compatible_versions`. Without it, a pack is only offered where the rules version exactly equals `version`.
+
+### Default to one edition per pack
+
+**A pack should declare only the edition it was written for.** Multi-version is an opt-in escape hatch, not the norm.
+
+The two editions are genuinely different content, not a re-skin. Measured across the SRD:
+
+- **Zero** of the 277 monsters present in both 5.1 and 5.2 have identical stat blocks.
+- The Aboleth went from 135 HP (18d10) to 150 (20d10 + 40); the Ancient Red Dragon from 546 to 507. Goblins became Fey.
+- Where a book and the SRD disagree, they disagree concretely: the 2014 Monster Manual's Hobgoblin Captain has 39 HP, SRD 5.2's has 58.
+
+So a 2014 book, the 5.2 SRD, and a future 2024 book are three distinct things that happen to share names. Declaring a 2014 book as `["srd_5_1", "srd_5_2"]` puts 2014 stat blocks in front of someone playing 2024 rules, alongside the 2024 versions of the same creatures.
+
+Declare `["srd_5_1"]` for a 2014 book, `["srd_5_2"]` for a 2024 one. Reach for both versions only when you mean it — genuinely edition-agnostic content (magic items and equipment are identical across editions; `srd.db` gives neither a version column), or content with no equivalent in the other edition that you would rather have than not.
+
+Whoever imports the pack can always widen `compatible_versions` themselves if they want an older book in a newer game. That is their call to make, and it should be a choice rather than a default.
 
 ---
 
@@ -172,8 +213,6 @@ Base classes omit `baseClass` and instead provide additional fields for hit dice
   },
   "startingCurrency": { "gp": 100 },
   "abilityPriority": ["Intelligence", "Constitution", "Dexterity", "Wisdom", "Charisma", "Strength"],
-  "nonStackingFeatures": ["Extra Attack"],
-  "extraAttackProgression": { "5": 2 },
   "features": {
     "1st": [...],
     "2nd": [...],
@@ -224,8 +263,13 @@ Subclasses can optionally grant additional weapon and armor proficiencies that m
 | `spellcasting` | object | ❌ | Spellcasting configuration (see below) |
 | `startingCurrency` | object | ❌ | Starting gold: `{ "gp": 100 }` |
 | `abilityPriority` | array | ❌ | 6 ability names for auto-fill ordering |
-| `nonStackingFeatures` | array | ❌ | Feature names that don't stack across multiclass (e.g. `["Extra Attack"]`, `["Unarmored Defense"]`) |
-| `extraAttackProgression` | object | ❌ | Class level → number of attacks, for classes with improved Extra Attack (e.g. `{"5": 2, "11": 3, "20": 4}`) |
+| `asiLevels` | array | ❌ | Class levels that grant an Ability Score Improvement. Defaults to `[4, 8, 12, 16, 19]`. Use `[4, 6, 8, 12, 14, 16, 19]` for Fighter-style classes |
+| `isSpellbookCaster` | boolean | ❌ | `true` for Wizard-style classes that learn 2 leveled spells per level-up into a spellbook. Defaults to `false` |
+| `nonStackingFeatures` | array | ❌ | Feature names that don't stack when multiclassing (e.g. `["Extra Attack", "Unarmored Defense"]`). Defaults to `[]` |
+| `extraAttackProgression` | object | ❌ | Maps class levels to number of attacks for improved Extra Attack (e.g. `{"5": 2, "11": 3, "20": 4}` for Fighter-style). Omit for classes with no Extra Attack |
+| `pactSlotCountByLevel` | array | ❌ | 20-element array of pact magic slot counts (index 0 = level 1). Only for Pact Magic casters |
+| `pactSlotLevelByLevel` | array | ❌ | 20-element array of pact magic slot levels (index 0 = level 1). Only for Pact Magic casters |
+| `multiclassProficiencies` | object | ❌ | What a character gains when they multiclass *into* this class: `{armor, weapons, tools, skillChoices, skillOptions}`. Without it, a homebrew class grants nothing on multiclass entry |
 
 \* These fields are optional but recommended. A warning is shown on import if they're missing.
 
@@ -233,29 +277,49 @@ Subclasses can optionally grant additional weapon and armor proficiencies that m
 
 ```json
 "proficiencies": {
-  "skillOptions": ["Arcana", "History", ...],
+  "skillOptions": ["Arcana", "History", "..."],
   "skillChoices": 2,
   "weaponProficiencies": ["Simple weapons"],
-  "toolOptions": ["Alchemist's Supplies", ...],
+  "toolProficiencies": ["Calligrapher's Supplies"],
+  "toolOptions": ["Alchemist's Supplies", "..."],
   "toolChoices": 1,
   "armorTraining": ["Light armor", "Medium armor", "Shields"]
 }
 ```
 
-#### Spellcasting Object
+`toolProficiencies` are granted outright; `toolOptions` + `toolChoices` are
+picked by the player.
 
-Arrays are indexed by class level (index 0 = level 1, index 19 = level 20):
+#### Spellcasting Object
 
 ```json
 "spellcasting": {
   "ability": "Intelligence",
-  "cantripsKnown": [2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
-  "spellSlots": {
-    "1": [2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-    "2": [0, 0, 0, 0, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
-  }
+  "casterType": "half",
+  "isPreparedCaster": true,
+  "initialLevel1Spells": 2,
+  "cantripsKnown": [2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4]
 }
 ```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `ability` | string | ✅ | Spellcasting ability (`Intelligence`, `Wisdom`, `Charisma`, …) |
+| `casterType` | string | ❌ | `full`, `half`, `third`, `pact`, or `none`. **Defaults to `full`** whenever a `spellcasting` block is present |
+| `isPreparedCaster` | boolean | ❌ | `true` for Cleric/Druid/Artificer-style classes that prepare from the whole list. Default `false` |
+| `cantripsKnown` | array | ❌ | 20 entries, indexed by class level (index 0 = level 1) |
+| `spellsKnown` | array | ❌ | 20 entries. Only for **known**-spell casters; leave it out for prepared casters |
+| `initialLevel1Spells` | integer | ❌ | Leveled spells chosen at character creation. Default `0` |
+
+**`spellSlots` is not a field.** Slot counts come from `casterType` and the
+standard tables — nothing reads an authored `spellSlots` map, so a class that
+supplies one instead of a `casterType` silently gets the *full*-caster table.
+
+**A caster needs `isPreparedCaster` or `spellsKnown`, or it never learns a
+leveled spell.** With neither, the level-up flow has no rule for granting one:
+the class gets its cantrips at level 1 and nothing after that, at every level,
+with no error anywhere. If the class prepares spells, say so; if it learns them,
+give it a `spellsKnown` table.
 
 #### Features Object
 
@@ -267,7 +331,10 @@ Features are organized by level keys (e.g., `"1st"`, `"3rd"`, `"20th"`).
     {
       "name": "Unwavering Mark",
       "description": "When you hit a creature...",
+      "summary": "Mark a creature you hit; it has disadvantage against your allies.",
       "choices": ["Option A", "Option B"],
+      "choiceDescription": "Choose your mark:",
+      "choiceDescriptions": { "Option A": "…", "Option B": "…" },
       "maxChoices": 1
     }
   ]
@@ -280,12 +347,118 @@ Features are organized by level keys (e.g., `"1st"`, `"3rd"`, `"20th"`).
 |-------|------|----------|-------------|
 | `name` | string | ✅ | Feature name |
 | `description` | string | ✅ | Feature description |
-| `choices` | array | ❌ | Available choices for this feature |
+| `summary` | string | ❌ | One-line mechanical recap. Used on the sheet and in the printable PDF, where the full description is too long |
+| `choices` | array | ❌ | Available choices for this feature (single-select) |
+| `choiceDescription` | string | ❌ | Prompt shown above the choice list |
+| `choiceDescriptions` | object | ❌ | Per-choice blurb, keyed by the choice string |
+| `choiceData` | object | ❌ | Per-choice mechanical effects, keyed by the choice string (see below) |
 | `maxChoices` | integer | ❌ | Maximum number of choices allowed |
+| `multiSelect` | object | ❌ | Catalog-driven, level-scaling multi-select (see below) |
+
+**The first base-class feature carrying `choices` is treated as the subclass
+picker.** Its level is the level the subclass is chosen at, and each entry in
+`choices` must match the `name` of a class entry whose `baseClass` is this
+class's name. Don't give an earlier feature a `choices` array unless you mean
+it to be the subclass choice.
+
+##### Per-choice effects (`choiceData`)
+
+A feature choice can carry mechanical effects, applied while that choice is the
+selected one:
+
+```json
+{
+  "name": "Woven Pattern",
+  "description": "Choose one pattern.",
+  "choices": ["Pattern of the Open Page", "Pattern of the Quick Step"],
+  "choiceData": {
+    "Pattern of the Open Page": {
+      "effects": [
+        {
+          "type": "advantage",
+          "data": { "on": "skill", "skills": ["Arcana", "History"], "condition": "" },
+          "description": "Advantage on Arcana and History checks."
+        }
+      ]
+    },
+    "Pattern of the Quick Step": {
+      "effects": [
+        { "type": "speedBonus", "data": { "bonus": 10 } }
+      ]
+    }
+  }
+}
+```
+
+Three effect types resolve from `choiceData` today — `advantage` on skills
+(`{on: "skill", skills: [...], condition: ""}`), `speedBonus`, and `weaponGrant`
+(a whole extra attack, as in the Armorer's Lightning Launcher). Anything else is
+parsed and then ignored, so leave it as prose.
 
 **Level Key Format:**
 - Must match pattern: `^\d+(st|nd|rd|th)$`
 - Examples: `"1st"`, `"2nd"`, `"3rd"`, `"20th"`
+
+##### Multi-Select Features (`multiSelect`)
+
+Use `multiSelect` for a feature where the player knows a **growing** number of
+options drawn from a catalog — Artificer Infusions, Eldritch Invocations,
+Metamagic. This is different from `choices`/`maxChoices` (a fixed pick from a
+flat list): the budget scales with class level and the option pool can carry
+mechanical effects. A feature is treated as multi-select **only** when this
+block is present; do not also set `choices` on the same feature.
+
+```json
+{
+  "name": "Infuse Item",
+  "description": "You've learned to imbue mundane items with magical infusions.",
+  "multiSelect": {
+    "storageKey": "Artificer Infusions",
+    "budgetByLevel": { "2": 2, "6": 4, "10": 6, "14": 8, "18": 10 },
+    "swapOnLevelUp": true,
+    "catalog": [
+      {
+        "name": "Enhanced Defense",
+        "description": "A suit of armor or a shield gains a +1 bonus to AC.",
+        "levelRequirement": 2
+      },
+      {
+        "name": "Enhanced Weapon",
+        "description": "A simple or martial weapon gains a +1 bonus to attack and damage rolls.",
+        "levelRequirement": 2,
+        "prerequisite": "Enhanced Defense"
+      }
+    ]
+  }
+}
+```
+
+**`multiSelect` Fields:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `storageKey` | string | ❌ | Key the selections are stored under. Defaults to the feature `name`. |
+| `budgetByLevel` | object | ❌ | Map of *class* level → number known. Known count = value of the highest level key `≤` the character's level in this class (0 below the first). |
+| `swapOnLevelUp` | boolean | ❌ | If true, the player may replace one known option on each class level-up. Default `false`. |
+| `catalog` | array | ❌ | The selectable options (see below). |
+
+**Catalog option Fields:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | ✅ | Display name; also the stored selection token. |
+| `description` | string | ❌ | Shown in the picker and detail view. |
+| `levelRequirement` | integer | ❌ | Minimum class level to select this option. Default `1`. (`level_requirement` also accepted.) |
+| `prerequisite` | string | ❌ | Free-form gating token (e.g. another feature's name); evaluated by the caller. |
+| `effects` | array | ⚠️ | Effect objects (`type`/`data`/`description`). **Parsed but not yet applied** — see below. |
+| `appliesToCategory` | string | ⚠️ | Marks an *item-targeting* option, to be bound to an owned item of this category (`armor`/`weapon`/`shield`/`wondrous`). **Not yet applied** — see below. |
+
+**A catalog option's `effects` do nothing yet.** They are parsed off the JSON and
+carried on the option, and no code reads them: selecting an option records the
+choice and shows its text. The same goes for `appliesToCategory`, which waits on
+the worn-item binding rule. Write the option's mechanics into its
+`description` — an option whose only statement of what it does lives in an
+`effects` block will read as doing nothing at the table.
 
 ---
 
@@ -322,12 +495,41 @@ Species (formerly races) represent character origins.
 | `id` | string | ✅ | Unique identifier |
 | `name` | string | ✅ | Display name |
 | `description` | string | ❌ | Species description |
-| `abilityScoreBonuses` | object | ❌ | Ability score increases |
-| `features` | array | ❌ | Species features |
-| `languages` | array | ❌ | Known languages |
+| `abilityScoreBonuses` | object | ❌ | Ability score increases. **SRD 5.1 only** — under 2024 rules the background carries these |
+| `features` | array | ❌ | Species features (see below) |
+| `languages` | array | ❌ | Languages known outright |
+| `languageChoiceCount` | integer | ❌ | Extra languages the player picks on top of `languages` |
 | `speed` | integer | ❌ | Walking speed in feet |
 | `size` | string | ❌ | Size category |
+| `creature_type` | string | ❌ | `Humanoid`, `Fey`, `Construct`, … Shown on the sheet. Defaults to `Humanoid` |
+| `characteristics` | object | ❌ | Flavour ranges for the description step: `height`, `age`, `weight`, `eyes`, `skin`, `hair` |
+| `flexibleChoices` | object | ❌ | Creation-time pickers — a floating ability increase, a size choice, a feat (see below) |
+| `image_url` | string | ❌ | Illustration shown on the species card |
 | `tags` | array | ❌ | Tags for filtering |
+
+#### Flexible Choices
+
+`flexibleChoices` drives the extra pickers shown during character creation. Use
+it for the Tasha's Custom Lineage shape (a floating increase plus a feat) and
+for 2024 species that choose their own size.
+
+```json
+"flexibleChoices": {
+  "abilityScores": { "count": 1, "increase": 2 },
+  "size": { "options": ["Small", "Medium"] },
+  "feats": { "count": 1 }
+}
+```
+
+| Block | Shape | Effect |
+|-------|-------|--------|
+| `abilityScores` | `{count, increase}` **or** `{totalPoints, maxPerAbility}` | A distributor appears. `{count: 1, increase: 2}` is "+2 to one score"; `{totalPoints: 3, maxPerAbility: 2}` is the Monsters of the Multiverse "spend 3 points" style |
+| `size` | `{options: ["Small", "Medium"]}` | The player picks their size |
+| `feats` | `{count: 1}` | A feat picker appears at creation |
+| `variableTrait` | `{options: [{type, count, range}]}` | A pick between differently-shaped traits |
+
+The same block works on a lineage, which is where the Variant Human / Custom
+Lineage version of it belongs.
 
 #### Ability Score Bonuses
 
@@ -351,9 +553,27 @@ Species (formerly races) represent character origins.
 ```json
 "features": [
   {
-    "name": "Darkvision",
-    "description": "You can see in dim light...",
-    "choices": ["Protector", "Scourge", "Fallen"],
+    "name": "Crystal Sight",
+    "description": "You can see in dim light within 60 feet...",
+    "vision": { "type": "darkvision", "distance": 60 }
+  },
+  {
+    "name": "Resonance",
+    "description": "You have resistance to thunder damage...",
+    "damageResistance": "thunder",
+    "saveAdvantage": { "against": "thunder", "abilities": ["CON"] }
+  },
+  {
+    "name": "Inner Light",
+    "description": "You know the Light cantrip...",
+    "grantedSpells": ["light"],
+    "levelGrantedSpells": { "3": ["faerie_fire"], "5": ["misty_step"] }
+  },
+  {
+    "name": "Cavern Lore",
+    "description": "Choose one skill; you gain proficiency in it.",
+    "choices": ["Arcana", "History", "Perception", "Survival"],
+    "choicesAreSkillProficiencies": true,
     "maxChoices": 1
   }
 ]
@@ -367,6 +587,61 @@ Species (formerly races) represent character origins.
 | `description` | string | ✅ | Feature description |
 | `choices` | array | ❌ | Available choices (for subraces, etc.) |
 | `maxChoices` | integer | ❌ | Max choices (must be ≥ 1) |
+| `choicesAreSkillProficiencies` | boolean | ❌ | The player's pick *is* the skill proficiency granted |
+| `choicesAreToolProficiencies` | boolean | ❌ | The same, for tools |
+| `vision` | object | ❌ | `{type, distance}` — `darkvision`, `blindsight`, `tremorsense`, `truesight` |
+| `damageResistance` | string | ❌ | One damage type. Use `damageResistances` for a list |
+| `saveAdvantage` | object | ❌ | `{against, abilities}` — e.g. `{"against": "poisoned", "abilities": ["CON"]}` |
+| `skillProficiencies` | array | ❌ | Skills granted outright |
+| `toolProficiencies` | array | ❌ | Tools granted outright |
+| `weaponProficiencies` | array | ❌ | Weapons granted outright |
+| `armorProficiencies` | array | ❌ | Armor granted outright |
+| `speedBonus` | object | ❌ | `{flat: 5}` |
+| `grantedSpells` | array | ❌ | SRD spell indices granted at level 1 |
+| `levelGrantedSpells` | object | ❌ | Character level → spell indices, e.g. `{"3": ["faerie_fire"]}` |
+| `minLevel` | integer | ❌ | Character level the feature (and its grants) unlocks at |
+| `choiceData` | object | ❌ | Per-choice `damageResistance` / `grantedSpells` / `levelGrantedSpells`, keyed by the choice string |
+
+**A spell grant is an index, not a name** — `faerie_fire`, not "Faerie Fire". An
+index that isn't in the SRD for the pack's rules version resolves to nothing,
+silently, and the character simply never receives the spell.
+
+---
+
+### Lineages
+
+A lineage (subrace) extends a species. It is matched to its parent by
+`baseSpecies`, and the player chooses one after picking the species.
+
+```json
+{
+  "id": "hb_deepvein_glimmerfolk",
+  "name": "Deepvein Glimmerfolk",
+  "baseSpecies": "hb_glimmerfolk",
+  "description": "Deepvein Glimmerfolk have dwelled so far beneath the surface...",
+  "abilityScoreBonuses": { "CON": 1 },
+  "features": [
+    {
+      "name": "Superior Darkvision",
+      "description": "Your darkvision extends to 120 feet.",
+      "vision": { "type": "darkvision", "distance": 120 }
+    }
+  ],
+  "tags": ["underground", "homebrew"]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | ✅ | Unique identifier |
+| `name` | string | ✅ | Display name |
+| `baseSpecies` | string | ✅ | The `id` of the species this lineage belongs to |
+| `description` | string | ❌ | Lineage description |
+| `abilityScoreBonuses` | object | ❌ | SRD 5.1 only, as for species |
+| `features` | array | ❌ | Same feature shape as species features |
+| `flexibleChoices` | object | ❌ | Same shape as the species block above. This is where Variant Human / Custom Lineage pickers belong |
+| `replacesBaseSpecies` | boolean | ❌ | `true` for a Custom Lineage that replaces its parent's traits rather than adding to them |
+| `tags` | array | ❌ | Tags for filtering |
 
 ---
 
@@ -409,27 +684,147 @@ Backgrounds represent a character's origin story. Use the same field names and s
 | `feature` | string | ❌ | Background feature name (short; same as SRD) |
 | `featureDescription` | string | ❌ | Long description of the feature (same as SRD) |
 | `feat` | string | ❌ | For 5.2-style: feat name (e.g. "Alert", "Magic Initiate (Wizard)") |
-| `abilityScores` | array | ❌ | For 5.2-style: e.g. `["STR", "DEX", "CON"]` |
+| `abilityScores` | array | ❌ | For 5.2-style: exactly three abilities, e.g. `["STR", "DEX", "CON"]` |
+| `spells` | array | ❌ | SRD spell indices the background adds to a spellcaster's available list |
+
+**`abilityScores` drives the +2/+1/+0 distributor** shown when a 5.2 background
+is selected, and the result is stored on the character. List three abilities;
+fewer means fewer slots.
+
+**`feat` is displayed, not granted.** The background card and the character
+sheet show the feat's name, but no feat is added to the character automatically —
+that is true of SRD 5.2 backgrounds too. Add it yourself at character creation
+if you want its effects.
 
 ---
 
-### Names
+### Feats
 
-The `names` array supports two entry types, distinguished by their fields:
-
-#### Species Names
-
-Provide name generation data for character creation and NPCs. Entry type is identified by the `species` field.
+Feats provide mechanical benefits a character gains either from a background (origin), at ASI levels (general), via a Fighting Style, or as an Epic Boon.
 
 ```json
 {
-  "names": [
+  "id": "hb_keen_eye",
+  "name": "Keen Eye",
+  "description": "Your eye for detail rivals that of a master cartographer.",
+  "summary": "Advantage on Wisdom (Perception) checks made to spot hidden creatures or objects. Half-cover offers no concealment from your ranged attacks.",
+  "prerequisites": "",
+  "category": "general",
+  "minimumLevel": 4,
+  "tags": ["perception", "ranged"],
+  "effects": [
     {
-      "species": "human",
-      "male": ["Aldric", "Beren", "Cedric"],
-      "female": ["Alara", "Brenna", "Celeste"],
-      "neutral": ["Ash", "Brook", "Corin"],
-      "familyNames": ["Ashford", "Blackwood", "Crowley"]
+      "type": "passiveAbility",
+      "data": {"ability": "keen_eye_perception"},
+      "description": "Advantage on Perception checks vs. hidden creatures"
+    }
+  ],
+  "choices": []
+}
+```
+
+#### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | ✅ | Unique identifier |
+| `name` | string | ✅ | Display name |
+| `description` | string | ✅ | Flavor / lore prose. Shown on the feat detail sheet. |
+| `summary` | string | ❌ | Short, mechanics-focused recap of the bonuses and effects. Used in feat lists, the character sheet feat card, and the printable PDF. Keep under ~280 characters. Falls back to `description` when omitted. |
+| `prerequisites` | string | ❌ | Plain-text prerequisite (e.g. `"Strength 13 or higher"`) |
+| `category` | string | ❌ | One of `origin`, `general`, `fightingStyle`, `epicBoon`. Shown as a label on the feat detail sheet |
+| `minimumLevel` | integer | ❌ | Earliest character level the feat can be selected (default `1`). Parsed and displayed, **not yet enforced** by the picker |
+| `tags` | array | ❌ | Free-form tag strings used for search/filtering |
+| `effects` | array | ❌ | Mechanical effects (`type`, `data`, `description`) — see below |
+| `choices` | array | ❌ | Player decisions tied to the feat: `{id, label, type, options, maxSelections}` where `type` is `ability`, `skill`, `tool`, `weapon`, `language`, `spell`, or `spellcastingClass` |
+
+#### Feat effects worth knowing
+
+Most effect types take the shape documented under
+[Equipment and Magic Items](#worneffects). Two are specific to feats:
+
+```json
+{
+  "type": "abilityScoreChoice",
+  "data": { "abilities": ["DEX", "WIS"], "bonus": 1, "max": 20 },
+  "description": "+1 Dexterity or Wisdom (max 20)"
+}
+```
+
+`abilityScoreChoice` is shorthand: it expands into an `abilityScoreBonus` effect
+plus a matching player choice, so you don't author the choice block yourself.
+
+```json
+{ "type": "damageBonus", "data": { "bonus": 1, "type": "ranged_attack" } }
+```
+
+**`data.type` decides where a `damageBonus` lands**, not the effect's name. The
+four keys are `melee_attack`, `ranged_attack`, `melee_damage` and
+`ranged_damage` — the first two modify attack rolls despite the effect being
+called `damageBonus`. (The `attackBonus` effect type is *not* read for this; use
+`damageBonus` with the right `data.type`.)
+
+---
+
+### Equipment and Magic Items
+
+`equipment` holds mundane gear — weapons, armor, tools, adventuring gear. `magic_items` holds anything magical. The two share one schema; **an item is treated as magic if, and only if, it has a `rarity`**.
+
+#### Mundane equipment
+
+```json
+{
+  "id": "hb_crystal_tipped_spear",
+  "name": "Crystal-Tipped Spear",
+  "index": "hb_crystal_tipped_spear",
+  "equipment_category": { "index": "weapon", "name": "Weapon" },
+  "weapon_category": "Martial",
+  "weapon_range": "Melee",
+  "damage": {
+    "damage_dice": "1d8",
+    "damage_type": { "index": "piercing", "name": "Piercing" }
+  },
+  "properties": [{ "index": "thrown", "name": "Thrown" }],
+  "range": { "normal": 5 },
+  "throw_range": { "normal": 20, "long": 60 },
+  "cost": { "quantity": 25, "unit": "gp" },
+  "weight": 4,
+  "desc": "A spear tipped with a shard of resonant crystal."
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` / `index` | string | ✅ | Unique identifier |
+| `name` | string | ✅ | Display name |
+| `equipment_category` | object | ✅ | `{index, name}`. The `name` drives typing: `Weapon`, `Armor`, `Tools`, anything else becomes adventuring gear |
+| `desc` | string \| array | ❌ | Rules text. An array is joined with newlines |
+| `cost` | object | ❌ | `{quantity, unit}` where unit is `cp`, `sp`, `ep`, `gp`, or `pp` |
+| `weight` | number | ❌ | Pounds |
+
+**Weapons** additionally use `weapon_category` (`Simple` / `Martial`), `weapon_range` (`Melee` / `Ranged`), `damage` (`{damage_dice, damage_type: {index}}`), `two_handed_damage` (versatile), `range` / `throw_range` (`{normal, long}`), and `properties` (array of `{index}` — `finesse`, `heavy`, `light`, `loading`, `reach`, `thrown`, `two-handed`, `versatile`, `ammunition`, `special`).
+
+**Armor** additionally uses `armor_category` (`Light` / `Medium` / `Heavy` / `Shield`), `armor_class` (`{base, dex_bonus, max_bonus}`), `str_minimum`, and `stealth_disadvantage`.
+
+#### Magic items
+
+```json
+{
+  "id": "hb_stoneheart_shield",
+  "name": "Stoneheart Shield",
+  "index": "hb_stoneheart_shield",
+  "equipment_category": { "index": "armor", "name": "Armor" },
+  "rarity": { "name": "Rare" },
+  "desc": [
+    "Armor (shield), rare (requires attunement)",
+    "While wielding this shield, you gain a +1 bonus to AC in addition to the shield's normal bonus."
+  ],
+  "requiresAttunement": true,
+  "wornEffects": [
+    {
+      "type": "acBonus",
+      "data": { "flat": 1 },
+      "description": "+1 bonus to AC, in addition to the shield's normal bonus."
     }
   ]
 }
@@ -437,7 +832,147 @@ Provide name generation data for character creation and NPCs. Entry type is iden
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `species` | string | ✅ | Species identifier (e.g. `human`, `elf`, `dwarf`, or a custom species ID) |
+| `rarity` | object | ✅ | `{name}` — `Common`, `Uncommon`, `Rare`, `Very Rare`, `Legendary`, `Artifact`. Its presence is what makes the item magical |
+| `desc` | array | ✅ | Rules text. **The first line is parsed** — see below |
+| `requiresAttunement` | boolean | ❌ | Read from `desc[0]` when omitted |
+| `wornEffects` | array | ❌ | Passive effects while worn or held |
+| `checkEffects` | array | ❌ | What invoking the item does for an ability/skill check in an adventure |
+| `useEffects` | array | ❌ | What using/drinking a consumable does in an adventure |
+
+Magic items also require `id` and `name`, and — for magic armor and weapons — an `equipment_category` of `Armor` or `Weapon`. Unlike mundane equipment, `desc` **must** be an array.
+
+#### The first `desc` line is load-bearing
+
+Magic items in D&D state their base item and their attunement requirement only in prose, and Adventura parses that line rather than making you restate it. Use the standard SRD phrasing:
+
+```
+Armor (scale mail), very rare (requires attunement)
+Weapon (any sword that deals slashing damage), very rare (requires attunement)
+Wondrous item, uncommon
+```
+
+* **Magic armor and weapons must name a base item in brackets.** The item is then rebuilt on top of that base and inherits its AC or damage dice, weight, and properties — so **don't author `damage` or `armor_class` on a magic weapon or armor**. A Frostbrand Glaive is a glaive; the app gives it 1d10 slashing, heavy, reach, two-handed, for free.
+* A **fixed base** (`Weapon (glaive)`) keeps the id and name you gave it.
+* An **open base** (`Weapon (any sword)`, `Armor (medium or heavy)`, `Armor (any)`) expands into one item per eligible base, named `Your Item (Longsword)` with the id `your_item__longsword`.
+* An item with no bracket — `Wondrous item`, `Ring`, `Potion`, `Rod` — needs no base and is left alone. Wearable ones are slotted by name (`ring`, `cloak`, `boots`, `amulet`, `gloves`, `belt`, `goggles`, …).
+* Only the **first** line is scanned for `requires attunement`, so a property buried later in the text (a Hammer of Thunderbolts' *Giant's Bane*) won't gate the whole item.
+
+Attunement is capped at 3 items, and equipping an item that needs it attunes it automatically when a slot is free.
+
+#### `wornEffects`
+
+Shape is `{type, data, description}`. **Only five types resolve** — anything else is accepted and then ignored, so don't reach for them:
+
+| `type` | `data` | Effect |
+|--------|--------|--------|
+| `acBonus` | `{"flat": 1}` | **Adds** to Armor Class |
+| `acFormula` | `{"base": 15, "abilities": ["DEX"]}` | **Sets** base Armor Class to `base` plus the listed ability modifiers. Use this when the item says "your base AC is X" (Robe of the Archmagi), not "you gain a +X bonus". The highest applicable formula wins across items and class features, so a robe can never make a monk worse |
+| `savingThrowBonus` | `{"flat": 1}` | Adds to all saving throws |
+| `resistance` | `{"damageType": "fire"}` | Resistance to that damage type |
+| `senseGrant` | `{"sense": "darkvision", "range": 60, "stack": "increase"}` | Grants or extends a sense (`stack` is `set` or `increase`) |
+
+`acBonus` and `acFormula` also take an optional **`condition`**, since plenty of items only pay out unarmoured:
+
+| `condition` | Applies when |
+|-------------|--------------|
+| `always` (default) | Unconditionally |
+| `noArmor` | No body armor worn |
+| `noShield` | No shield held |
+| `noArmorNoShield` | Neither — e.g. Bracers of Defense, which give a fighter in plate nothing |
+| `wearingArmor` | Body armor is worn |
+| `wieldingShield` | A shield is held |
+
+```json
+{
+  "id": "hb_duelists_bracers",
+  "name": "Duelist's Bracers",
+  "equipment_category": { "index": "wondrous_item", "name": "Wondrous Item" },
+  "rarity": { "name": "Rare" },
+  "desc": [
+    "Wondrous item, rare (requires attunement)",
+    "While wearing these bracers and using no armor or shield, you gain a +2 bonus to AC."
+  ],
+  "wornEffects": [
+    {
+      "type": "acBonus",
+      "data": { "flat": 2, "condition": "noArmorNoShield" },
+      "description": "+2 bonus to AC while wearing no armor and using no shield."
+    }
+  ]
+}
+```
+
+An `acFormula` is ignored entirely while body armor is worn — armor sets the base AC, and the formula is what would have replaced it.
+
+Effects apply only while the item is worn or held, and only once it is attuned if it requires attunement.
+
+#### `checkEffects` and `useEffects`
+
+`checkEffects` declare how *invoking* an item helps an ability or skill check during a solo adventure — a crowbar granting advantage on Strength checks. Fields: `skill`, `ability`, `advantage`, `bonus`. An effect applies when its `ability` matches the check's ability **or** its `skill` matches the check's skill.
+
+`useEffects` declare what happens when a consumable is used. `type` is one of `heal`, `temp_hp` (both use `amount`, a dice expression like `"2d4+2"`), `cure_condition` (uses `conditions`), `check_buff` (a one-shot edge on the next matching check), or `grant_status` (a durational state). The check-shaped types also take `skill`, `ability`, `advantage`, `bonus`, plus `uses` or `durationTurns`.
+
+```json
+{
+  "id": "hb_potion_of_runic_sight",
+  "name": "Potion of Runic Sight",
+  "equipment_category": { "index": "potion", "name": "Potion" },
+  "rarity": { "name": "Uncommon" },
+  "desc": ["Potion, uncommon", "You gain advantage on Arcana checks to decipher magical writing for 1 hour."],
+  "useEffects": [
+    {
+      "type": "grant_status",
+      "status": "runic sight",
+      "skill": "arcana",
+      "advantage": true,
+      "durationTurns": 10
+    }
+  ]
+}
+```
+
+The app — never the AI — rolls and applies these.
+
+#### What to leave as prose
+
+Model only what the table above supports. A great many real magic items can't be expressed, and that's fine: the item still equips, still uses its base stats, and still shows its full rules text.
+
+The `condition` field covers exactly one axis: whether armor or a shield is worn. Anything narrower has no rail. So an Arrow-Catching Shield's "+2 to AC *against ranged attacks*" stays prose — it is worth nothing against a melee attacker, and there is no per-attack condition to express that.
+
+Also deliberately **not** modelled: extra damage dice on a hit (a Flame Tongue's 2d6 fire), charges, curses, ability-score overrides (an Amulet of Health setting CON to 19), auras that benefit nearby allies (a Rod of Alertness), and player-choice bonuses (a Defender's shiftable +3). Faking any of these as a flat number would quietly inflate the character sheet, which is worse than leaving them for a human to read.
+
+**Not yet authorable:** bonuses to *spell* attack rolls and save DCs from a held implement (Wand of the War Mage, Rod of the Pact Keeper) do work, but only for items listed code-side in `MagicItemMechanics` — there is no `wornEffects` type for them, because the spell-stat helpers are given a character and never an equipment state. A homebrew wand can be held and attuned, but can't yet raise your spell attack.
+
+**Reference:** both example packs demonstrate every `wornEffect` type, every
+`useEffects` type, `checkEffects`, the `condition` vocabulary, and an open-base
+weapon. They are published at
+[github.com/saentari/adventura-custom-content](https://github.com/saentari/adventura-custom-content).
+
+---
+
+### Names
+
+The `names` array holds two kinds of entry, told apart by their fields.
+
+#### Species names
+
+```json
+{
+  "names": [
+    {
+      "species": "hb_glimmerfolk",
+      "male": ["Crystan", "Faceth", "Gleamor"],
+      "female": ["Aurela", "Clarisa", "Gemella"],
+      "neutral": ["Glint", "Lumen", "Prism"],
+      "familyNames": ["Brightcore", "Crystalvein", "Deepgleam"]
+    }
+  ]
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `species` | string | ✅ | Species identifier (`human`, `elf`, … or a custom species ID) |
 | `male` | array | ❌ | Male first names |
 | `female` | array | ❌ | Female first names |
 | `neutral` | array | ❌ | Gender-neutral first names |
@@ -447,16 +982,16 @@ Provide name generation data for character creation and NPCs. Entry type is iden
 1. Pick a random first name from the gender-appropriate list
 2. If that list is empty, fall back to `neutral`, then any available list
 3. If `familyNames` is non-empty, append a random family name
-4. Imported names are **additively merged** with built-in names (more variety, never replaces)
+4. Imported names are **additively merged** with built-in names
 
-**Notes:**
-- Species IDs must match the app's species identifiers (e.g. `human`, `elf`, `dwarf`, `halfling`, `gnome`, `halfElf`, `halfOrc`, `tiefling`, `dragonborn`, `goliath`, `orc`)
-- For custom species, use the same ID used in the species definition (e.g. `hb_glimmerfolk`)
-- All name arrays contain plain strings (complete names, not prefixes/suffixes)
+Species IDs must match the app's identifiers (`human`, `elf`, `dwarf`,
+`halfling`, `gnome`, `halfElf`, `halfOrc`, `tiefling`, `dragonborn`, `goliath`,
+`orc`) or the `id` of a species in this pack. All entries are complete names,
+not prefixes or suffixes.
 
-#### Random Name Word Lists
+#### Random name word lists
 
-Provide word lists for generating adventure names, party names, and other randomized labels. Entry type is identified by the `category` field.
+Word lists for generated adventure and party names. Identified by `category`.
 
 ```json
 {
@@ -464,14 +999,8 @@ Provide word lists for generating adventure names, party names, and other random
     {
       "category": "adventure",
       "mode": "merge",
-      "adjectives": ["Runic", "Crystalline", "Shattered"],
-      "nouns": ["Cavern", "Spire", "Depths"]
-    },
-    {
-      "category": "party",
-      "mode": "replace",
-      "adjectives": ["Crystal", "Deepvein", "Resonant"],
-      "nouns": ["Delvers", "Watchers", "Shards"]
+      "adjectives": ["Crystalline", "Shimmering", "Fractured"],
+      "nouns": ["Geode", "Cavern", "Lattice"]
     }
   ]
 }
@@ -479,87 +1008,113 @@ Provide word lists for generating adventure names, party names, and other random
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `category` | string | ✅ | Name category: `adventure` or `party` |
-| `mode` | string | ❌ | `merge` (default) adds to built-in lists; `replace` overrides built-in lists entirely |
-| `adjectives` | array | ✅ | Word list for the adjective slot (at least one entry) |
-| `nouns` | array | ✅ | Word list for the noun slot (at least one entry) |
+| `category` | string | ✅ | `adventure` or `party` |
+| `mode` | string | ❌ | `merge` (default) adds to the built-in pool; `replace` overrides it |
+| `adjectives` | array | ✅ | Words for the adjective slot |
+| `nouns` | array | ✅ | Words for the noun slot |
 
-**Generation logic:**
-1. Template: **"The [Adjective] [Noun]"** (e.g., "The Crystalline Spire", "The Deepvein Delvers")
-2. **Merge mode (default):** Custom adjectives/nouns are appended to the built-in pool for more variety
-3. **Replace mode:** Built-in lists are discarded; only custom words are used
-4. If multiple packs contribute to the same category, all custom words are combined
-5. If a replace-mode pack produces empty lists, built-in lists are used as a fallback
-6. `mode` defaults to `"merge"` when omitted
-7. Future categories (tavern, shop, npc, place) will be added as the app expands
+Names are built as **"The [Adjective] [Noun]"**. A replace-mode pack that ends
+up with empty lists falls back to the built-in pool. A pack containing *only*
+`names` is valid.
 
-#### Combining Both Types
+---
 
-Both species names and random name word lists can coexist in the same `names` array:
+### Deities
+
+Deities offered when a character picks a faith. They carry no mechanics.
 
 ```json
 {
-  "names": [
-    { "species": "hb_glimmerfolk", "male": ["Crystan"], "female": ["Aurela"] },
-    { "category": "adventure", "adjectives": ["Crystalline"], "nouns": ["Geode"] },
-    { "category": "party", "adjectives": ["Crystal"], "nouns": ["Shards"] }
-  ]
+  "id": "hb_vexith_prismbearer",
+  "name": "Vexith the Prismbearer",
+  "alignment": "NG",
+  "suggestedDomains": ["Light", "Knowledge"],
+  "symbol": "A faceted crystal radiating seven colours of light",
+  "pantheon": "Glimmerfolk Crystalline Faith",
+  "description": "Goddess of crystalline light and refracted truth.",
+  "tags": ["homebrew", "crystal"]
 }
 ```
 
-A pack with *only* `names` (no species, classes, etc.) is valid.
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | ✅ | Unique identifier |
+| `name` | string | ✅ | Display name |
+| `alignment` | string | ❌ | Two-letter alignment (`NG`, `LN`, `CE`, …) |
+| `suggestedDomains` | array | ❌ | Domain names shown beside the deity |
+| `symbol` | string | ❌ | Holy symbol |
+| `pantheon` | string | ❌ | Pantheon the deity belongs to |
+| `description` | string | ❌ | Flavour text |
+| `tags` | array | ❌ | Tags for filtering |
 
 ---
 
 ### Invocations
 
-Eldritch Invocations are warlock class feature options. Custom invocations appear alongside SRD invocations when leveling up a warlock.
+Eldritch Invocations. Custom ones are merged with the SRD list when a warlock
+picks invocations.
 
 ```json
 {
-  "invocations": [
-    {
-      "id": "hb_eldritch_shroud",
-      "name": "Eldritch Shroud",
-      "description": "You can wrap yourself in a cloak of crackling eldritch energy. As a bonus action, you gain temporary hit points equal to your Charisma modifier (minimum 1) that last for 1 minute.",
-      "level_requirement": 5,
-      "effects": [
-        {
-          "type": "passiveAbility",
-          "data": {
-            "description": "As a bonus action, gain temporary hit points equal to your Charisma modifier for 1 minute."
-          }
-        }
-      ]
-    }
-  ]
+  "id": "hb_shard_ward",
+  "name": "Shard Ward",
+  "index": "hb_shard_ward",
+  "description": "When a creature you can see hits you with an attack...",
+  "level_requirement": 7,
+  "prerequisite": "Pact of the Crystal"
 }
 ```
 
-#### Required Fields
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique identifier (snake_case) |
-| `name` | string | Display name |
-| `description` | string | Full text description |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` / `index` | string | ✅ | Unique identifier |
+| `name` | string | ✅ | Display name |
+| `description` | string | ✅ | Full rules text |
+| `level_requirement` | integer | ❌ | Minimum warlock level (default `1`). **This is the only gate applied to a custom invocation** |
+| `prerequisite` | string | ❌ | A pact boon (`"Pact of the Blade"`) or a spell index (`"eldritch_blast"`). Shown on the detail sheet; **not enforced for custom invocations**, so treat it as guidance to the player |
 
-#### Optional Fields
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `level_requirement` | integer (1-20) | 1 | Minimum warlock level required |
-| `prerequisite` | string | null | Required spell index (e.g., `"eldritch_blast"`) |
-| `pact_prerequisite` | string | null | Required pact boon (e.g., `"Pact of the Blade"`) |
-| `effects` | array | [] | Mechanical effects (same format as feat effects) |
+---
 
-#### Effect Types
-Effects use the same `{type, data}` format as feats. Common types for invocations:
-- `spellGrant` — grants at-will or limited-use spells: `{"spellIndex": "mage_armor", "usage": "at_will"}`
-- `proficiency` — grants skill proficiency: `{"value": "Deception"}`
-- `senseGrant` — grants a sense: `{"sense": "darkvision", "range": 120}`
-- `damageBonus` — grants bonus damage: `{"value": "charisma_modifier", "type": "necrotic"}`
-- `passiveAbility` — free-form passive ability: `{"description": "..."}`
-- `advantage` — grants advantage: `{"on": "saving_throw", "detail": "concentration"}`
-- `savingThrowBonus` — bonus to saves: `{"value": "1d4"}`
+### Monsters
+
+Stat blocks, in the same shape as the SRD's. They appear in the library.
+
+```json
+{
+  "id": "hb_crystalwyrm",
+  "name": "Crystalwyrm",
+  "index": "hb_crystalwyrm",
+  "size": "Large",
+  "type": "dragon",
+  "alignment": "neutral",
+  "armor_class": [{ "type": "natural", "value": 16 }],
+  "hit_points": 136,
+  "hit_dice": "16d10",
+  "hit_points_roll": "16d10+48",
+  "speed": { "walk": "30 ft.", "fly": "60 ft." },
+  "strength": 19, "dexterity": 12, "constitution": 17,
+  "intelligence": 14, "wisdom": 13, "charisma": 16,
+  "damage_resistances": ["piercing", "slashing"],
+  "condition_immunities": [{ "index": "blinded", "name": "Blinded" }],
+  "senses": { "darkvision": "120 ft.", "passive_perception": 15 },
+  "languages": "Draconic, Terran",
+  "challenge_rating": 8,
+  "proficiency_bonus": 3,
+  "xp": 3900,
+  "special_abilities": [{ "name": "Crystalline Body", "desc": "..." }],
+  "actions": [{ "name": "Bite", "desc": "..." }],
+  "reactions": [{ "name": "Refracting Scales", "desc": "..." }],
+  "legendary_actions": []
+}
+```
+
+Required: `id`/`index`, `name`. Everything else is optional and rendered when
+present — the six ability scores, `proficiencies` (saves and skills as
+`{value, proficiency: {index, name}}`), `damage_vulnerabilities`,
+`damage_resistances`, `damage_immunities`, `condition_immunities`, `senses`,
+`languages`, `challenge_rating`, `proficiency_bonus`, `xp`, `subtype`, and the
+four action blocks (`special_abilities`, `actions`, `reactions`,
+`legendary_actions`).
 
 ---
 
@@ -618,11 +1173,23 @@ The app validates imported content against these rules:
 
 ### Complete Example
 
-See the example files in this repository:
-- [homebrew_example_5_1.json](./homebrew_example_5_1.json) — SRD 5.1 (2014 rules): species have ability score bonuses, backgrounds grant a feature and bonus languages
-- [homebrew_example_5_2.json](./homebrew_example_5_2.json) — SRD 5.2 (2024 rules): backgrounds grant ability score bonuses and a feat, species provide traits only
+Two complete packs are published at
+[github.com/saentari/adventura-custom-content](https://github.com/saentari/adventura-custom-content).
+They carry the same fictional content in both editions, so diffing them shows
+exactly what changes between rule sets:
 
-Each example pack demonstrates every supported content type: a base class (Runescribe), a Fighter subclass (Ironclad), a Warlock subclass (Pact of the Crystal), a custom species and lineage (Glimmerfolk / Deepvein Glimmerfolk), a background (Ruin Delver), feats, a spell, an eldritch invocation, equipment, magic items, deities, a monster, and species/random-name data.
+- `homebrew_example_5_1.json` — SRD 5.1 (2014 rules): species grant ability score bonuses; the background grants a feature and bonus languages
+- `homebrew_example_5_2.json` — SRD 5.2 (2024 rules): the background grants ability score bonuses and a feat; species provide traits and a size choice
+
+Between them they demonstrate every field in this document that the app acts
+on: a base class with its own subclasses, a multi-select feature, per-choice
+effects, flexible species choices, spell grants, every magic-item effect type,
+and every consumable use-effect.
+
+They are documentation and test fixtures, not app assets — they are **not**
+bundled into the build, and `test/domain/srd/homebrew_example_pack_test.dart`
+imports them on every run to prove that everything they demonstrate still
+resolves.
 
 ---
 
@@ -648,14 +1215,20 @@ Invalid level key: 3 (must be like "3rd")
 2. **Validate Often:** Import after adding each section to catch errors early
 3. **Use Clear IDs:** Make IDs descriptive (e.g., `xanathars_cavalier` not `class1`)
 4. **Match SRD Version:** Ensure your `version` matches the rules you're using
-5. **Test in App:** Always test imported content by creating a character
+5. **Test in App:** Always test imported content by creating a character — a field the app doesn't read fails silently, so the only proof a mechanic works is seeing it on the sheet
 
 ---
 
 ## Future Enhancements
 
-Planned additions to the schema:
-- Version ranges (e.g., compatible with 5.1 AND 5.2)
+Fields the schema accepts and the app does not yet act on. They are documented
+so an author knows to write the mechanic into the prose as well:
+
+- **`multiSelect` catalog `effects` and `appliesToCategory`** — parsed, never applied
+- **`minimumLevel` on a feat** — displayed, not enforced by the picker
+- **`prerequisite` on a custom invocation** — displayed, not enforced
+- Conditional and player-choice magic item effects (see [Equipment and Magic Items](#equipment-and-magic-items))
+- Attack and damage bonuses from non-weapon sources (a Wand of the War Mage's bonus to spell attacks)
 - Dependencies between content packs
 
 ---
@@ -666,4 +1239,4 @@ If you encounter validation errors or need help:
 1. Check the error message for specific field issues
 2. Compare your JSON to the example file
 3. Verify all required fields are present
-4. Report issues at: [GitHub Issues](https://github.com/saentari/adventura/issues)
+4. Report issues at: [adventura-custom-content issues](https://github.com/saentari/adventura-custom-content/issues)
