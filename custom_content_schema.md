@@ -640,7 +640,7 @@ A lineage (subrace) extends a species. It is matched to its parent by
 | `abilityScoreBonuses` | object | ❌ | SRD 5.1 only, as for species |
 | `features` | array | ❌ | Same feature shape as species features |
 | `flexibleChoices` | object | ❌ | Same shape as the species block above. This is where Variant Human / Custom Lineage pickers belong |
-| `replacesBaseSpecies` | boolean | ❌ | `true` for a Custom Lineage that replaces its parent's traits rather than adding to them |
+| `replacesBaseSpecies` | boolean | ❌ | `true` for a Custom Lineage that replaces its parent's traits rather than adding to them. It is rebuilt on that edition's species, so one from a pack that declares 2014 rules is never offered to a 2024 character, even if the pack also declares 2024 or is allowed on the Sources step |
 | `tags` | array | ❌ | Tags for filtering |
 
 ---
