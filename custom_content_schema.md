@@ -597,10 +597,34 @@ Lineage version of it belongs.
 | `weaponProficiencies` | array | ❌ | Weapons granted outright |
 | `armorProficiencies` | array | ❌ | Armor granted outright |
 | `speedBonus` | object | ❌ | `{flat: 5}` |
+| `conditionImmunity` | string | ❌ | A condition the species cannot suffer, e.g. `magical_sleep` |
+| `effects` | array | ❌ | Any effect in the feat vocabulary (see [Feats](#feats)), for a rule the keys above have no name for. Any effect may carry `minLevel`. See below |
 | `grantedSpells` | array | ❌ | SRD spell indices granted at level 1 |
 | `levelGrantedSpells` | object | ❌ | Character level → spell indices, e.g. `{"3": ["faerie_fire"]}` |
 | `minLevel` | integer | ❌ | Character level the feature (and its grants) unlocks at |
 | `choiceData` | object | ❌ | Per-choice `damageResistance` / `grantedSpells` / `levelGrantedSpells`, keyed by the choice string |
+
+##### Effects on a species feature
+
+```json
+"effects": [
+  { "type": "acFormula", "data": { "base": 13, "abilities": ["DEX"], "condition": "noArmor", "overArmor": true } },
+  { "type": "speedGrant", "data": { "mode": "fly", "speed": 50, "unlessArmor": ["medium", "heavy"] } },
+  { "type": "resourcePool", "data": { "resource": "Fey Step", "uses": "proficiencyBonus", "recharge": "long_rest" } },
+  { "type": "advantage", "data": { "on": "skill", "skills": ["Stealth"], "condition": "while motionless" } },
+  { "type": "immunity", "data": { "damage": "poison" } }
+]
+```
+
+`overArmor` lets natural armor beat armor that would do no better. `speedGrant`
+with no `speed` matches the walking speed. `uses` is a number,
+`proficiencyBonus` or `modifier:CON`. `advantage` and `disadvantage` are `on`
+`skill`, `ability`, `check` or `save`; a `condition` makes it something the
+player judges rather than something the roll applies. `immunity` takes `damage`
+or `condition`.
+
+A species feature's `choiceData` can carry `effects` too, applied while that
+choice is the selected one.
 
 **A spell grant is an index, not a name** — `faerie_fire`, not "Faerie Fire". An
 index that isn't in the SRD for the pack's rules version resolves to nothing,
@@ -739,6 +763,13 @@ Feats provide mechanical benefits a character gains either from a background (or
 | `choices` | array | ❌ | Player decisions tied to the feat: `{id, label, type, options, maxSelections}` where `type` is `ability`, `skill`, `tool`, `weapon`, `language`, `spell`, or `spellcastingClass` |
 
 #### Feat effects worth knowing
+
+Every effect is loaded into one shared vocabulary before anything reads it, and
+the validator checks that loaded form, so a shape the rules cannot read is an
+error at import rather than an effect that silently does nothing. Both the
+SRD's names (`abilityScoreIncrease`, `toolProficiency`) and the names below are
+accepted. A `passiveAbility` key is shown as text unless the engine knows the
+rule; a key it knows is applied as that rule.
 
 Most effect types take the shape documented under
 [Equipment and Magic Items](#worneffects). Two are specific to feats:
