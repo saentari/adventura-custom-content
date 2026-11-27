@@ -17,6 +17,7 @@ Content packs target a specific rules version:
 |------|-------------|
 | [custom_content_guide.md](custom_content_guide.md) | User guide covering how to import, manage, and create content packs |
 | [custom_content_schema.md](custom_content_schema.md) | Technical schema reference with field definitions, validation rules, and examples |
+| [pack.schema.json](pack.schema.json) | The format as a JSON Schema (draft 2020-12), for editors that check JSON as you type. See [JSON Schema](custom_content_schema.md#json-schema) |
 | [homebrew_example_5_1.json](homebrew_example_5_1.json) | Complete example pack for 2014 rules (SRD 5.1) |
 | [homebrew_example_5_2.json](homebrew_example_5_2.json) | Complete example pack for 2024 rules (SRD 5.2) |
 

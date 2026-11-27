@@ -10,6 +10,7 @@ This document describes the JSON schema format for importing custom D&D 5e conte
 ## Table of Contents
 
 - [Overview](#overview)
+- [JSON Schema](#json-schema)
 - [Root Structure](#root-structure)
 - [Source Metadata](#source-metadata)
 - [Content Types](#content-types)
@@ -44,6 +45,39 @@ Custom content packs are JSON files that contain additional D&D content from off
 - Eldritch Invocations
 - Monsters
 - Names (species names and random-name word lists)
+
+---
+
+## JSON Schema
+
+[`pack.schema.json`](pack.schema.json) is this format as a JSON Schema
+(draft 2020-12), for editors that check JSON as you type. In VS Code, add to
+your settings:
+
+```json
+"json.schemas": [
+  {
+    "fileMatch": ["*.adventura.json"],
+    "url": "https://raw.githubusercontent.com/saentari/adventura-custom-content/main/pack.schema.json"
+  }
+]
+```
+
+and name your pack `something.adventura.json`.
+
+It is generated from the schema Adventura's homebrew editor builds its forms
+from, and it holds every field, with its description, that this document
+lists. Two things to know:
+
+- **It checks shapes, and the import has the final word.** Some of the
+  import's rules can't be written in JSON Schema: text that may not be
+  blank, ids used twice, a companion's stat block formulas. A pack the
+  schema accepts can still be refused on import, with a message saying
+  why.
+- **It is stricter than the import in places**, where the app reads less
+  than an author means: an effect a class feature would silently skip, an
+  id with capitals or hyphens, a size that isn't one. There the app would
+  import the pack but not read it as you meant.
 
 ---
 
@@ -352,6 +386,7 @@ Features are organized by level keys (e.g., `"1st"`, `"3rd"`, `"20th"`).
 | `choiceDescription` | string | ❌ | Prompt shown above the choice list |
 | `choiceDescriptions` | object | ❌ | Per-choice blurb, keyed by the choice string |
 | `choiceData` | object | ❌ | Per-choice mechanical effects, keyed by the choice string (see below) |
+| `alwaysPreparedSpells` | object | ❌ | Spells the feature keeps prepared, by class level (see below) |
 | `maxChoices` | integer | ❌ | Maximum number of choices allowed |
 | `multiSelect` | object | ❌ | Catalog-driven, level-scaling multi-select (see below) |
 
@@ -398,6 +433,32 @@ parsed and then ignored, so leave it as prose.
 **Level Key Format:**
 - Must match pattern: `^\d+(st|nd|rd|th)$`
 - Examples: `"1st"`, `"2nd"`, `"3rd"`, `"20th"`
+
+##### Always-prepared spells (`alwaysPreparedSpells`)
+
+For spells a feature gives for free, the shape of every domain, oath and circle
+table. Keys are the **class** level each spell arrives at, values are spell ids:
+the SRD index for an SRD spell, the pack's `id` for a pack spell.
+
+```json
+{
+  "name": "Circle of the Moon Spells",
+  "alwaysPreparedSpells": {
+    "3": ["cure_wounds", "moonbeam", "starry_wisp"],
+    "5": ["conjure_animals"],
+    "7": ["phb24_fount_of_moonlight"]
+  },
+  "description": "You always have the listed spells prepared."
+}
+```
+
+The character holds them automatically and they count against nothing it may
+know or prepare, so a spell the player had already picked gives that pick back.
+Where a choice decides the spells, put the same key on `choiceData[choice]`, as
+the Circle of the Land does for its land.
+
+This is for spells the character simply has. A warlock's Expanded Spell List
+only widens what can be picked, so it stays prose.
 
 ##### Multi-Select Features (`multiSelect`)
 
@@ -704,12 +765,19 @@ Backgrounds represent a character's origin story. Use the same field names and s
 | `skillProficiencies` | array | ❌ | Skill proficiency names (max 4) |
 | `toolProficiencies` | array | ❌ | Tool proficiency names |
 | `languageChoiceCount` | integer | ❌ | Number of bonus language choices (same as SRD) |
-| `equipment` | object or array | ❌ | SRD shape: `{ "optionA": [...], "optionB": [...] }`; or flat array of strings |
+| `equipment` | object or array | ❌ | What the character starts with. See below |
 | `feature` | string | ❌ | Background feature name (short; same as SRD) |
 | `featureDescription` | string | ❌ | Long description of the feature (same as SRD) |
 | `feat` | string | ❌ | For 5.2-style: feat name (e.g. "Alert", "Magic Initiate (Wizard)") |
 | `abilityScores` | array | ❌ | For 5.2-style: exactly three abilities, e.g. `["STR", "DEX", "CON"]` |
 | `spells` | array | ❌ | SRD spell indices the background adds to a spellcaster's available list |
+
+**`equipment` is read, and takes the book's wording.** It comes in three shapes:
+
+- `{ "optionA": [...], "optionB": [...] }` or `["Option A: Sickle, Shovel, 30 GP", "Option B: 50 GP"]`: the 2024 choice.
+- A plain array, `["A shovel", "A pouch containing 10 gp"]`: a 2014 background, one list with nothing to choose.
+
+Each entry is matched against the item catalogue. A description around the name is fine, because its last words are read for the item (`A winter blanket`, `A bottle of black ink`, `A belaying pin (club)`). A count goes in front of the name or in its parenthesis (`2 Pouches`, `Three daggers`, `Oil (3 flasks)`), gold is `30 GP` or `A pouch containing 10 gp`, and `Artisan's Tools`, `Musical Instrument` or `Gaming Set` becomes a pick the player makes on the Equipment step. An entry that matches no item stays on the card, under "Not added to your inventory", because the inventory holds catalogue items only.
 
 **`abilityScores` drives the +2/+1/+0 distributor** shown when a 5.2 background
 is selected, and the result is stored on the character. List three abilities;
@@ -1146,6 +1214,59 @@ present — the six ability scores, `proficiencies` (saves and skills as
 `languages`, `challenge_rating`, `proficiency_bonus`, `xp`, `subtype`, and the
 four action blocks (`special_abilities`, `actions`, `reactions`,
 `legendary_actions`).
+
+A Beast can be a Wild Shape form and a familiar, and is offered as one by the
+rules that already apply: Wild Shape's Challenge Rating and movement limits, and
+in 2024 Find Familiar's "any Beast of Challenge Rating 0". Two things need a key,
+`familiar_form`:
+
+| Value | Effect |
+|-------|--------|
+| `"Find Familiar"` | Offered as a familiar whatever it is. A 2014 pack needs this, because SRD 5.1's Find Familiar names fifteen forms and nothing else |
+| `"Pact of the Chain"` | Offered only to a warlock with Pact of the Chain, as one of its special forms (the 2024 Player's Handbook's Slaad Tadpole) |
+
+Any other value is refused at import.
+
+#### A companion from a subclass feature
+
+A subclass feature that gives a creature carries `companion`. The pick is made
+on the feature's row on the character sheet, and prints as a card.
+
+| Key | Meaning |
+|-----|---------|
+| `catalog` | `"beast"` to pick from the bestiary, or `"statBlocks"` to pick one of `statBlocks` |
+| `maxCr`, `maxSize` | A `beast` pick's limits (the 2014 Ranger's Companion: `0.25`, `"Medium"`) |
+| `addProficiencyBonus` | Adds the Proficiency Bonus to the beast's AC, attack rolls and damage rolls on its card |
+| `hitPointsPerLevel` | Raises its Hit Points to this many per class level when that is higher |
+| `statBlocks` | Stat blocks of the feature's own, each with a `name`, in the monster shape above |
+| `note` | A line printed on the card, for a rule the card would otherwise get wrong |
+| `storageKey` | Where the pick is stored; the feature's name by default |
+
+A stat block in `statBlocks` can depend on its owner. A number may be a formula,
+and text may hold one in braces; `{+…}` prints the sign:
+
+```json
+{
+  "name": "Beast of the Land",
+  "size": "Medium",
+  "type": "beast",
+  "armor_class": [{ "value": "13 + wis" }],
+  "hit_points": "5 + 5 * level",
+  "actions": [
+    { "name": "Beast's Strike", "desc": "Melee Attack Roll: {+spellAttack}, reach 5 ft. Hit: 1d8 + {2 + wis} damage." }
+  ]
+}
+```
+
+A formula takes whole numbers, `+ - * /` (division rounds down), parentheses and
+these names: `level` (the class level), `spellLevel`, `pb`, the six modifiers
+`str dex con int wis cha`, `spellAttack` and `spellDC` (the class's own). A
+stat block without a `challenge_rating` prints its CR as "—". A formula the app
+cannot read is refused at import.
+
+A feature with a single stat block gives that creature with no pick to make (the
+Steel Defender). An option in a `multiSelect` catalog can carry `companion` too,
+and gives it once the option is picked (the Homunculus Servant infusion).
 
 ---
 
